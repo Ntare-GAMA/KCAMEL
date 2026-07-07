@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KCAMEL — Film & Music Production | Kigali, Rwanda</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --amber:#e8a020;
+  --rust:#c0392b;
+  --electric:#00d4ff;
+  --white:#ffffff;
+  --off-white:#f0ece0;
+  --black:#000;
+  --near:#0a0a0a;
+  --dark:#111;
+  --mid:#1c1c1c;
+  --gray:#555;
+  --light-gray:#999;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Helvetica Neue',Arial,sans-serif;background:var(--black);color:var(--off-white);overflow-x:hidden;}
+
+/* ── CURSOR ── */
+.cursor{width:12px;height:12px;background:var(--amber);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .1s,width .3s,height .3s;mix-blend-mode:difference;}
+.cursor.big{width:40px;height:40px;}
+
+/* ── NAV ── */
+header{position:fixed;top:0;width:100%;z-index:1000;padding:1.5rem 0;transition:all .4s;background:linear-gradient(180deg,rgba(0,0,0,.9) 0%,transparent 100%);}
+header.scrolled{padding:1rem 0;background:rgba(0,0,0,.96);border-bottom:1px solid rgba(232,160,32,.1);backdrop-filter:blur(16px);}
+nav{display:flex;justify-content:space-between;align-items:center;max-width:1600px;margin:0 auto;padding:0 4rem;}
+
+/* SVG Logo in nav */
+.nav-logo{text-decoration:none;display:flex;align-items:center;gap:.8rem;}
+.nav-logo svg{height:42px;width:auto;}
+.nav-logo-text{display:flex;flex-direction:column;line-height:1;}
+.nav-logo-text span:first-child{font-family:'Helvetica Neue',Arial,sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:4px;color:var(--amber);}
+.nav-logo-text span:last-child{font-size:.55rem;letter-spacing:3px;color:var(--light-gray);text-transform:uppercase;}
+
+.nav-links{display:flex;list-style:none;gap:2.8rem;align-items:center;}
+.nav-links a{color:var(--off-white);text-decoration:none;font-size:.8rem;letter-spacing:2.5px;text-transform:uppercase;font-weight:400;position:relative;transition:color .3s;}
+.nav-links a::after{content:'';position:absolute;bottom:-6px;left:0;width:0;height:1px;background:var(--amber);transition:width .35s;}
+.nav-links a:hover{color:var(--amber);}
+.nav-links a:hover::after{width:100%;}
+.nav-cta{padding:.7rem 1.8rem;border:1px solid var(--amber);color:var(--amber) !important;transition:all .35s !important;}
+.nav-cta:hover{background:var(--amber) !important;color:var(--black) !important;}
+.nav-cta::after{display:none !important;}
+
+/* hamburger */
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:1100;}
+.hamburger span{display:block;width:26px;height:1px;background:var(--amber);transition:all .4s;}
+.hamburger.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+.mob-menu{display:none;position:fixed;inset:0;background:rgba(0,0,0,.97);z-index:1050;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem;}
+.mob-menu.open{display:flex;}
+.mob-menu a{color:var(--off-white);text-decoration:none;font-size:1.6rem;letter-spacing:5px;text-transform:uppercase;font-weight:200;transition:color .3s;}
+.mob-menu a:hover{color:var(--amber);}
+
+/* ── HERO ── */
+.hero{height:100vh;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;filter:brightness(.35);}
+.hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(135deg,rgba(0,0,0,.7) 0%,rgba(192,57,43,.08) 50%,rgba(0,0,0,.8) 100%);}
+/* scan lines */
+.hero-overlay::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.08) 3px,rgba(0,0,0,.08) 4px);pointer-events:none;}
+.hero-content{position:relative;z-index:2;text-align:left;max-width:1600px;width:100%;padding:0 4rem;}
+.hero-eyebrow{font-size:.72rem;letter-spacing:5px;text-transform:uppercase;color:var(--amber);margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;animation:fadeUp .9s ease both;}
+.hero-eyebrow::before{content:'';display:block;width:40px;height:1px;background:var(--amber);}
+.hero-h1{font-size:10rem;font-weight:900;line-height:.9;letter-spacing:-2px;color:var(--white);animation:fadeUp .9s .1s ease both;position:relative;}
+/* glitch effect */
+.hero-h1::before,.hero-h1::after{content:'KCAMEL';position:absolute;top:0;left:0;width:100%;overflow:hidden;}
+.hero-h1::before{color:var(--electric);clip-path:polygon(0 20%,100% 20%,100% 30%,0 30%);animation:glitch1 4s infinite;opacity:.6;}
+.hero-h1::after{color:var(--rust);clip-path:polygon(0 60%,100% 60%,100% 70%,0 70%);animation:glitch2 4s infinite;opacity:.6;}
+@keyframes glitch1{0%,90%,100%{transform:none}92%{transform:translateX(-4px)}94%{transform:translateX(4px)}96%{transform:none}}
+@keyframes glitch2{0%,88%,100%{transform:none}90%{transform:translateX(4px)}93%{transform:translateX(-3px)}96%{transform:none}}
+.hero-sub{font-size:1.1rem;letter-spacing:6px;text-transform:uppercase;color:rgba(240,236,224,.6);margin:2rem 0 3rem;font-weight:300;animation:fadeUp .9s .2s ease both;}
+.hero-ctas{display:flex;gap:1.5rem;animation:fadeUp .9s .3s ease both;}
+.btn-primary{padding:1.1rem 2.8rem;background:var(--amber);color:var(--black);font-size:.8rem;letter-spacing:3px;text-transform:uppercase;text-decoration:none;font-weight:700;transition:all .4s;border:2px solid var(--amber);}
+.btn-primary:hover{background:transparent;color:var(--amber);}
+.btn-ghost{padding:1.1rem 2.8rem;background:transparent;color:var(--white);font-size:.8rem;letter-spacing:3px;text-transform:uppercase;text-decoration:none;font-weight:400;border:1px solid rgba(255,255,255,.3);transition:all .4s;}
+.btn-ghost:hover{border-color:var(--amber);color:var(--amber);}
+/* hero scroll indicator */
+.hero-scroll{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:.8rem;animation:fadeUp 1s .6s ease both;}
+.hero-scroll span{font-size:.65rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.4);}
+.scroll-line{width:1px;height:50px;background:linear-gradient(180deg,var(--amber),transparent);animation:scrollDrop 2s ease-in-out infinite;}
+@keyframes scrollDrop{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+
+/* ── TICKER ── */
+.ticker{background:var(--amber);padding:.7rem 0;overflow:hidden;white-space:nowrap;}
+.ticker-inner{display:inline-flex;animation:ticker 18s linear infinite;}
+.ticker-inner span{font-size:.72rem;letter-spacing:3px;text-transform:uppercase;color:var(--black);font-weight:700;padding:0 2.5rem;}
+.ticker-inner span::before{content:'◆';margin-right:2.5rem;}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ── SECTION SHELL ── */
+.section-wrap{max-width:1600px;margin:0 auto;padding:9rem 4rem;}
+.sec-label{font-size:.7rem;letter-spacing:4px;text-transform:uppercase;color:var(--amber);font-weight:400;margin-bottom:1rem;display:flex;align-items:center;gap:1rem;}
+.sec-label::before{content:'';display:block;width:30px;height:1px;background:var(--amber);}
+.sec-title{font-size:4.5rem;font-weight:900;line-height:1;color:var(--white);letter-spacing:-1px;margin-bottom:1.5rem;}
+.sec-title em{font-style:italic;color:var(--amber);}
+
+/* ── ABOUT ── */
+.about-bg{background:var(--near);}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;}
+.about-video-wrap{position:relative;aspect-ratio:9/11;overflow:hidden;border:1px solid rgba(232,160,32,.15);}
+.about-video-wrap video{width:100%;height:100%;object-fit:cover;filter:grayscale(20%);}
+.about-badge{position:absolute;top:2rem;right:-1px;background:var(--amber);color:var(--black);padding:.8rem 1.5rem;font-size:.7rem;letter-spacing:2px;text-transform:uppercase;font-weight:700;}
+.about-number{position:absolute;bottom:2rem;left:2rem;font-size:6rem;font-weight:900;color:rgba(232,160,32,.08);line-height:1;pointer-events:none;}
+.about-text{display:flex;flex-direction:column;gap:2rem;}
+.about-text p{font-size:1.05rem;line-height:1.95;color:rgba(240,236,224,.8);font-weight:300;}
+.about-text p strong{color:var(--amber);font-weight:700;}
+.skills{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:.5rem;}
+.skill{padding:.55rem 1.3rem;border:1px solid rgba(232,160,32,.25);font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--amber);font-weight:400;transition:all .3s;cursor:default;}
+.skill:hover{background:var(--amber);color:var(--black);}
+
+/* ── STATS ── */
+.stats-band{background:var(--dark);border-top:1px solid rgba(232,160,32,.08);border-bottom:1px solid rgba(232,160,32,.08);}
+.stats-inner{max-width:1600px;margin:0 auto;padding:5rem 4rem;display:grid;grid-template-columns:repeat(4,1fr);gap:0;}
+.stat-cell{padding:3rem 2rem;border-right:1px solid rgba(255,255,255,.06);text-align:center;transition:background .4s;}
+.stat-cell:last-child{border-right:none;}
+.stat-cell:hover{background:rgba(232,160,32,.04);}
+.stat-n{font-size:4.5rem;font-weight:900;color:var(--amber);line-height:1;margin-bottom:.5rem;}
+.stat-l{font-size:.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--light-gray);}
+
+/* ── SHOWREEL ── */
+.showreel-bg{background:var(--black);}
+.showreel-frame{position:relative;aspect-ratio:16/9;max-width:1200px;margin:0 auto;overflow:hidden;border:1px solid rgba(232,160,32,.2);box-shadow:0 0 80px rgba(232,160,32,.08);}
+.showreel-frame iframe{width:100%;height:100%;border:none;display:block;}
+.yt-link{display:block;text-align:center;margin-top:2.5rem;}
+
+/* ── PORTFOLIO ── */
+.portfolio-bg{background:var(--near);}
+.filter-bar{display:flex;gap:0;margin-bottom:3.5rem;border:1px solid rgba(232,160,32,.2);width:fit-content;}
+.fb{padding:.85rem 2rem;background:transparent;border:none;border-right:1px solid rgba(232,160,32,.2);color:var(--light-gray);font-size:.72rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .3s;font-family:inherit;}
+.fb:last-child{border-right:none;}
+.fb.active,.fb:hover{background:var(--amber);color:var(--black);font-weight:700;}
+.p-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+.p-card{position:relative;aspect-ratio:4/3;overflow:hidden;display:block;text-decoration:none;cursor:pointer;background:var(--mid);}
+.p-card.wide{grid-column:span 2;}
+.p-card img{width:100%;height:100%;object-fit:cover;transition:transform .7s,filter .5s;filter:grayscale(30%)brightness(.85);}
+.p-card video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s;z-index:1;}
+.p-card:hover img{transform:scale(1.08);filter:grayscale(0)brightness(1);}
+.p-card:hover video{opacity:1;}
+.p-mask{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,transparent 35%,rgba(0,0,0,.92) 100%);opacity:0;transition:opacity .4s;}
+.p-card:hover .p-mask{opacity:1;}
+.p-info{position:absolute;bottom:0;left:0;right:0;z-index:3;padding:2rem;transform:translateY(10px);opacity:0;transition:all .4s;}
+.p-card:hover .p-info{transform:none;opacity:1;}
+.p-tag-label{font-size:.65rem;letter-spacing:3px;text-transform:uppercase;color:var(--amber);margin-bottom:.4rem;}
+.p-title-text{font-size:1.5rem;font-weight:700;color:var(--white);letter-spacing:.5px;}
+/* always-visible small tag top-left */
+.p-badge{position:absolute;top:1.2rem;left:1.2rem;z-index:3;background:rgba(0,0,0,.7);border:1px solid rgba(232,160,32,.4);padding:.4rem .9rem;font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--amber);}
+
+/* ── EXPERIENCE ── */
+.exp-bg{background:var(--black);}
+.exp-list{max-width:1000px;}
+.exp-row{display:grid;grid-template-columns:80px 1fr;gap:3rem;padding:3.5rem 0;border-bottom:1px solid rgba(255,255,255,.06);transition:padding-left .4s;}
+.exp-row:hover{padding-left:1rem;}
+.exp-num{font-size:2.5rem;font-weight:900;color:rgba(232,160,32,.18);line-height:1;padding-top:.4rem;}
+.exp-body h3{font-size:1.7rem;font-weight:700;color:var(--white);margin-bottom:.4rem;}
+.exp-company{font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--amber);margin-bottom:1.2rem;}
+.exp-body p{font-size:1rem;line-height:1.85;color:rgba(240,236,224,.65);font-weight:300;}
+
+/* ── TEAM ── */
+.team-bg{background:var(--near);border-top:1px solid rgba(232,160,32,.06);}
+.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+.team-card{position:relative;overflow:hidden;aspect-ratio:3/4;background:var(--mid);cursor:default;}
+.team-photo{width:100%;height:100%;object-fit:cover;filter:grayscale(60%)sepia(20%);transition:filter .6s,transform .6s;}
+.team-card:hover .team-photo{filter:grayscale(0)sepia(0);transform:scale(1.04);}
+.team-photo-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:7rem;background:linear-gradient(135deg,var(--mid),var(--dark));}
+.team-grad{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.92) 0%,transparent 50%);z-index:1;}
+.team-info{position:absolute;bottom:0;left:0;right:0;z-index:2;padding:2.5rem;}
+.team-name{font-size:1.6rem;font-weight:700;color:var(--white);margin-bottom:.3rem;}
+.team-role-txt{font-size:.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--amber);margin-bottom:1rem;}
+.team-bio-txt{font-size:.9rem;line-height:1.7;color:rgba(240,236,224,.65);font-weight:300;max-height:0;overflow:hidden;transition:max-height .5s;}
+.team-card:hover .team-bio-txt{max-height:100px;}
+
+/* ── CONTACT ── */
+.contact-bg{background:var(--dark);}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:7rem;align-items:start;}
+.contact-left h3{font-size:3.5rem;font-weight:900;color:var(--white);line-height:1.1;margin-bottom:2rem;}
+.contact-left h3 em{color:var(--amber);font-style:italic;}
+.contact-left p{font-size:1.05rem;line-height:1.9;color:rgba(240,236,224,.7);font-weight:300;margin-bottom:2.5rem;}
+.contact-details{display:flex;flex-direction:column;gap:1.5rem;margin-bottom:3rem;}
+.cd-row{display:flex;flex-direction:column;gap:.3rem;}
+.cd-label{font-size:.65rem;letter-spacing:3px;text-transform:uppercase;color:var(--amber);}
+.cd-val{font-size:1rem;color:var(--off-white);text-decoration:none;font-weight:300;transition:color .3s;}
+.cd-val:hover{color:var(--amber);}
+.socials{display:flex;gap:1rem;}
+.soc-btn{width:52px;height:52px;border:1px solid rgba(232,160,32,.25);display:flex;align-items:center;justify-content:center;font-size:1.4rem;text-decoration:none;transition:all .4s;color:var(--off-white);}
+.soc-btn:hover{background:var(--amber);border-color:var(--amber);color:var(--black);}
+.contact-form-box{background:var(--near);padding:3.5rem;border:1px solid rgba(232,160,32,.1);}
+.form-row-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.fg{display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.5rem;}
+.fg label{font-size:.65rem;letter-spacing:3px;text-transform:uppercase;color:var(--amber);}
+.fg input,.fg textarea,.fg select{background:rgba(255,255,255,.04);border:1px solid rgba(232,160,32,.12);color:var(--off-white);padding:1.1rem 1.2rem;font-family:inherit;font-size:.95rem;font-weight:300;transition:border-color .3s;}
+.fg input:focus,.fg textarea:focus,.fg select:focus{outline:none;border-color:var(--amber);}
+.fg select option{background:var(--near);}
+.fg textarea{min-height:130px;resize:vertical;}
+.form-btn{width:100%;padding:1.3rem;background:var(--amber);color:var(--black);border:none;font-size:.8rem;letter-spacing:3px;text-transform:uppercase;font-weight:700;cursor:pointer;transition:all .4s;font-family:inherit;}
+.form-btn:hover{background:var(--white);}
+
+/* ── FOOTER ── */
+footer{background:var(--black);padding:4rem;border-top:1px solid rgba(232,160,32,.08);}
+.footer-inner{max-width:1600px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:2rem;}
+.footer-copy{font-size:.72rem;letter-spacing:2px;color:rgba(153,153,153,.6);text-transform:uppercase;}
+.footer-links{display:flex;gap:2rem;}
+.footer-links a{font-size:.72rem;letter-spacing:2px;color:rgba(153,153,153,.6);text-decoration:none;text-transform:uppercase;transition:color .3s;}
+.footer-links a:hover{color:var(--amber);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1200px){
+  nav{padding:0 3rem;}
+  .section-wrap{padding:7rem 3rem;}
+  .stats-inner{padding:4rem 3rem;}
+  .contact-grid{gap:4rem;}
+  .p-grid{grid-template-columns:repeat(2,1fr);}
+  .p-card.wide{grid-column:span 1;}
+  .sec-title{font-size:3.5rem;}
+}
+@media(max-width:960px){
+  .nav-links{display:none;}
+  .hamburger{display:flex;}
+  .about-grid{grid-template-columns:1fr;gap:3rem;}
+  .stats-inner{grid-template-columns:repeat(2,1fr);}
+  .stat-cell{border-bottom:1px solid rgba(255,255,255,.06);}
+  .team-grid{grid-template-columns:repeat(2,1fr);}
+  .contact-grid{grid-template-columns:1fr;gap:4rem;}
+  .hero-h1{font-size:7rem;}
+}
+@media(max-width:640px){
+  nav{padding:0 2rem;}
+  .section-wrap{padding:5rem 2rem;}
+  .stats-inner{padding:4rem 2rem;grid-template-columns:1fr 1fr;}
+  .hero-content{padding:0 2rem;}
+  .hero-h1{font-size:4.5rem;letter-spacing:-1px;}
+  .hero-sub{font-size:.85rem;letter-spacing:3px;}
+  .hero-ctas{flex-direction:column;gap:1rem;}
+  .btn-primary,.btn-ghost{text-align:center;}
+  .sec-title{font-size:2.8rem;}
+  .p-grid{grid-template-columns:1fr;}
+  .team-grid{grid-template-columns:1fr;}
+  .form-row-grid{grid-template-columns:1fr;}
+  .contact-form-box{padding:2rem 1.5rem;}
+  .footer-inner{flex-direction:column;text-align:center;}
+  .footer-links{justify-content:center;}
+  .exp-row{grid-template-columns:50px 1fr;gap:1.5rem;}
+}
+@media(max-width:420px){
+  .hero-h1{font-size:3.2rem;}
+  .sec-title{font-size:2.2rem;}
+  .stats-inner{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+
+<!-- NAV -->
+<header id="header">
+  <nav>
+    <a href="#home" class="nav-logo">
+      <svg height="42" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="4" width="10" height="52" rx="1" fill="#3a2e1e"/>
+        <polygon points="14,30 38,4 50,4 26,30" fill="#3a2e1e"/>
+        <polygon points="14,32 50,56 38,56 14,36" fill="#e8a020"/>
+        <polygon points="20,56 38,56 20,46" fill="#c8840a"/>
+      </svg>
+      <div class="nav-logo-text">
+        <span>KCAMEL</span>
+        <span>PRODUCTION</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#showreel">Showreel</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#team">Team</a></li>
+      <li><a href="#contact" class="nav-cta">Contact</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </nav>
+</header>
+
+<div class="mob-menu" id="mobMenu">
+  <a href="#about" class="ml">About</a>
+  <a href="#showreel" class="ml">Showreel</a>
+  <a href="#portfolio" class="ml">Portfolio</a>
+  <a href="#experience" class="ml">Experience</a>
+  <a href="#team" class="ml">Team</a>
+  <a href="#contact" class="ml">Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="home" class="hero">
+  <video class="hero-video" autoplay muted loop playsinline>
+    <source src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/KCAMEL%201.mp4" type="video/mp4">
+  </video>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Kigali, Rwanda · Est. KCAMEL</div>
+    <h1 class="hero-h1">KCAMEL</h1>
+    <div class="hero-sub">Film &amp; Music Production</div>
+    <div class="hero-ctas">
+      <a href="#portfolio" class="btn-primary">View Our Work</a>
+      <a href="#showreel" class="btn-ghost">Watch Showreel</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner" id="ticker">
+    <span>Film Production</span><span>Music Videos</span><span>Cinematography</span>
+    <span>Lighting Design</span><span>Direction</span><span>Post-Production</span>
+    <span>Scriptwriting</span><span>Visual Storytelling</span><span>Kigali Rwanda</span>
+    <span>Film Production</span><span>Music Videos</span><span>Cinematography</span>
+    <span>Lighting Design</span><span>Direction</span><span>Post-Production</span>
+    <span>Scriptwriting</span><span>Visual Storytelling</span><span>Kigali Rwanda</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about" class="about-bg">
+  <div class="section-wrap">
+    <div class="about-grid">
+      <div class="about-video-wrap">
+        <video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;">
+          <source src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/KCAMEL%202.mp4" type="video/mp4">
+        </video>
+        <div class="about-badge">Kigali, Rwanda</div>
+        <div class="about-number">01</div>
+      </div>
+      <div class="about-text">
+        <div>
+          <div class="sec-label">Who We Are</div>
+          <h2 class="sec-title">One Word.<br><em>Cinematographer.</em></h2>
+        </div>
+        <p>KCAMEL is a premier film and music production house based in Kigali, Rwanda. We don't just capture moments — <strong>we architect them.</strong> From mastering light on a Kigali rooftop to scripting the emotional arc of an entire production, every frame carries deliberate intention.</p>
+        <p>Managing Director <strong>Ntare GAMA Allan</strong> is the full creative stack in one person — director, gaffer, scriptwriter. Cinematic vision meets technical mastery, delivering stories that resonate across Rwanda and beyond.</p>
+        <div class="skills">
+          <span class="skill">Cinematography</span>
+          <span class="skill">Lighting Design</span>
+          <span class="skill">Direction</span>
+          <span class="skill">Visual Storytelling</span>
+          <span class="skill">Film Production</span>
+          <span class="skill">Music Production</span>
+          <span class="skill">Scriptwriting</span>
+          <span class="skill">Post-Production</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-band">
+  <div class="stats-inner">
+    <div class="stat-cell"><div class="stat-n">1.28K+</div><div class="stat-l">YouTube Subscribers</div></div>
+    <div class="stat-cell"><div class="stat-n">11+</div><div class="stat-l">Projects Produced</div></div>
+    <div class="stat-cell"><div class="stat-n">5+</div><div class="stat-l">Years Active</div></div>
+    <div class="stat-cell"><div class="stat-n">100%</div><div class="stat-l">Creative Dedication</div></div>
+  </div>
+</div>
+
+<!-- SHOWREEL -->
+<section id="showreel" class="showreel-bg">
+  <div class="section-wrap">
+    <div class="sec-label">Our Work in Motion</div>
+    <h2 class="sec-title" style="margin-bottom:3.5rem;">Watch the <em>Showreel</em></h2>
+    <div class="showreel-frame">
+      <iframe src="https://www.youtube.com/embed/videoseries?list=UULFf4rDcCCXX6xBkBaDOPtbw&autoplay=0"
+        title="KCAMEL Channel" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+      </iframe>
+    </div>
+    <div class="yt-link">
+      <a href="https://www.youtube.com/@kcamel" target="_blank" class="btn-ghost" style="display:inline-block;margin-top:2rem;">View Full Channel ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio" class="portfolio-bg">
+  <div class="section-wrap">
+    <div class="sec-label">Selected Works</div>
+    <h2 class="sec-title" style="margin-bottom:2.5rem;"><em>Portfolio</em></h2>
+    <div class="filter-bar">
+      <button class="fb active" onclick="filter('all',this)">All</button>
+      <button class="fb" onclick="filter('film',this)">Film</button>
+      <button class="fb" onclick="filter('music',this)">Music</button>
+      <button class="fb" onclick="filter('commercial',this)">Commercial</button>
+    </div>
+    <div class="p-grid" id="pgrid">
+
+      <a class="p-card wide" data-cat="film" href="https://www.youtube.com/@kcamel" target="_blank">
+        <img src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/OFFICIAL.png" alt="1785" loading="lazy">
+        <video muted loop playsinline><source src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/KCAMEL%202.mp4" type="video/mp4"></video>
+        <div class="p-badge">Film</div>
+        <div class="p-mask"></div>
+        <div class="p-info"><div class="p-tag-label">Film · KCAMEL Production</div><div class="p-title-text">1785</div></div>
+      </a>
+
+      <a class="p-card" data-cat="film" href="https://www.youtube.com/@kcamel" target="_blank">
+        <img src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/Brohood.jpg" alt="Brotherhood" loading="lazy">
+        <video muted loop playsinline><source src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/KCAMEL%203.mp4" type="video/mp4"></video>
+        <div class="p-badge">Film</div>
+        <div class="p-mask"></div>
+        <div class="p-info"><div class="p-tag-label">Film · KCAMEL Production</div><div class="p-title-text">Brotherhood</div></div>
+      </a>
+
+      <a class="p-card" data-cat="film" href="https://www.youtube.com/@kcamel" target="_blank">
+        <img src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/4.jpg" alt="Sorrow" loading="lazy">
+        <div class="p-badge">Film</div>
+        <div class="p-mask"></div>
+        <div class="p-info"><div class="p-tag-label">Film · KCAMEL Production</div><div class="p-title-text">Sorrow — The Beginning</div></div>
+      </a>
+
+      <a class="p-card" data-cat="music" href="https://www.youtube.com/@kcamel" target="_blank">
+        <img src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/3.jpg" alt="Rap Houdini" loading="lazy">
+        <div class="p-badge">Music</div>
+        <div class="p-mask"></div>
+        <div class="p-info"><div class="p-tag-label">Music Video · KCAMEL Production</div><div class="p-title-text">Rap Houdini</div></div>
+      </a>
+
+      <a class="p-card" data-cat="music" href="https://www.youtube.com/@kcamel" target="_blank">
+        <img src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/1.jpg" alt="Bad Nights" loading="lazy">
+        <div class="p-badge">Music</div>
+        <div class="p-mask"></div>
+        <div class="p-info"><div class="p-tag-label">Music Video · KCAMEL Production</div><div class="p-title-text">Bad Nights</div></div>
+      </a>
+
+      <a class="p-card" data-cat="music" href="https://www.youtube.com/@kcamel" target="_blank">
+        <img src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/7.jpg" alt="Bazooka" loading="lazy">
+        <div class="p-badge">Music</div>
+        <div class="p-mask"></div>
+        <div class="p-info"><div class="p-tag-label">Music Video · KCAMEL Production</div><div class="p-title-text">Bazooka</div></div>
+      </a>
+
+      <a class="p-card" data-cat="commercial" href="https://www.youtube.com/@kcamel" target="_blank">
+        <img src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/2.jpg" alt="BMW" loading="lazy">
+        <div class="p-badge">Commercial</div>
+        <div class="p-mask"></div>
+        <div class="p-info"><div class="p-tag-label">Commercial · KCAMEL Production</div><div class="p-title-text">BMW</div></div>
+      </a>
+
+      <a class="p-card" data-cat="commercial" href="https://www.youtube.com/@kcamel" target="_blank">
+        <img src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/POYO.png" alt="POYO" loading="lazy">
+        <div class="p-badge">Commercial</div>
+        <div class="p-mask"></div>
+        <div class="p-info"><div class="p-tag-label">Commercial · KCAMEL Production</div><div class="p-title-text">POYO</div></div>
+      </a>
+
+      <a class="p-card" data-cat="film" href="https://www.youtube.com/@kcamel" target="_blank">
+        <img src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/5.jpg" alt="Umubyeyi" loading="lazy">
+        <div class="p-badge">Film</div>
+        <div class="p-mask"></div>
+        <div class="p-info"><div class="p-tag-label">Film · KCAMEL Production</div><div class="p-title-text">Umubyeyi</div></div>
+      </a>
+
+      <a class="p-card" data-cat="film" href="https://www.youtube.com/@kcamel" target="_blank">
+        <img src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/6.jpg" alt="Shekinah" loading="lazy">
+        <div class="p-badge">Film</div>
+        <div class="p-mask"></div>
+        <div class="p-info"><div class="p-tag-label">Film · KCAMEL Production</div><div class="p-title-text">Shekinah</div></div>
+      </a>
+
+      <a class="p-card wide" data-cat="film" href="https://www.youtube.com/@kcamel" target="_blank">
+        <img src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/8.jpg" alt="Legend" loading="lazy">
+        <div class="p-badge">Film</div>
+        <div class="p-mask"></div>
+        <div class="p-info"><div class="p-tag-label">Film · KCAMEL Production</div><div class="p-title-text">Legend</div></div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="exp-bg">
+  <div class="section-wrap">
+    <div class="sec-label">Career</div>
+    <h2 class="sec-title" style="margin-bottom:4rem;">Our <em>Experience</em></h2>
+    <div class="exp-list">
+      <div class="exp-row">
+        <div class="exp-num">01</div>
+        <div class="exp-body">
+          <h3>Managing Director</h3>
+          <div class="exp-company">KCAMEL — Film & Music Production · Kigali, Rwanda</div>
+          <p>Leading end-to-end production from pre-production scripting and storyboarding through lighting design, directing, and post-production delivery. Building KCAMEL into East Africa's leading creative production house.</p>
+        </div>
+      </div>
+      <div class="exp-row">
+        <div class="exp-num">02</div>
+        <div class="exp-body">
+          <h3>Gaffer &amp; Scriptwriter</h3>
+          <div class="exp-company">Film Sets — Rwanda &amp; Beyond</div>
+          <p>Designing complex lighting setups that shape mood and narrative across multiple productions. Crafting scripts that give images something true and powerful to say.</p>
+        </div>
+      </div>
+      <div class="exp-row">
+        <div class="exp-num">03</div>
+        <div class="exp-body">
+          <h3>Director of Photography</h3>
+          <div class="exp-company">Independent Projects — East Africa</div>
+          <p>Bringing cinematic vision to music videos, short films, documentaries, and commercial content across Rwanda and the broader East African region.</p>
+        </div>
+      </div>
+      <div class="exp-row">
+        <div class="exp-num">04</div>
+        <div class="exp-body">
+          <h3>Researcher</h3>
+          <div class="exp-company">Film &amp; Entrepreneurship Studies</div>
+          <p>Investigating the intersection of African storytelling, independent filmmaking, and entrepreneurial innovation — shaping the future of Rwandan cinema.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team" class="team-bg">
+  <div class="section-wrap">
+    <div class="sec-label">Creative Excellence</div>
+    <h2 class="sec-title" style="margin-bottom:3.5rem;">The <em>Team</em></h2>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-photo-placeholder">🎬</div>
+        <div class="team-grad"></div>
+        <div class="team-info">
+          <div class="team-name">Ntare GAMA Allan</div>
+          <div class="team-role-txt">Managing Director · Cinematographer</div>
+          <div class="team-bio-txt">Visionary filmmaker and entrepreneur. Director, gaffer, and scriptwriter — the full creative stack. Leading KCAMEL's cinematic vision from Kigali to the world.</div>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-photo-placeholder">🎵</div>
+        <div class="team-grad"></div>
+        <div class="team-info">
+          <div class="team-name">Music Producer</div>
+          <div class="team-role-txt">Head of Music Production</div>
+          <div class="team-bio-txt">Crafting sonic landscapes that elevate every visual story KCAMEL tells. Expert in recording, mixing, and mastering for film and standalone releases.</div>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-photo-placeholder">✂️</div>
+        <div class="team-grad"></div>
+        <div class="team-info">
+          <div class="team-name">Lead Editor</div>
+          <div class="team-role-txt">Post-Production Supervisor</div>
+          <div class="team-bio-txt">Master of narrative in the edit suite. Precision color grading and visual storytelling that transforms raw footage into cinematic experiences.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact-bg">
+  <div class="section-wrap">
+    <div class="contact-grid">
+      <div class="contact-left">
+        <div class="sec-label">Get In Touch</div>
+        <h3>Start a <em>Conversation</em></h3>
+        <p>Whether it's a film, a brand story, a music video, or a wild creative idea — we want to hear it. Based in Kigali, working across Rwanda and beyond.</p>
+        <div class="contact-details">
+          <div class="cd-row">
+            <span class="cd-label">Email</span>
+            <a href="mailto:ntaregama@gmail.com" class="cd-val">ntaregama@gmail.com</a>
+          </div>
+          <div class="cd-row">
+            <span class="cd-label">Location</span>
+            <span class="cd-val">Kigali, Rwanda</span>
+          </div>
+          <div class="cd-row">
+            <span class="cd-label">GitHub</span>
+            <a href="https://github.com/Ntare-GAMA" target="_blank" class="cd-val">github.com/Ntare-GAMA</a>
+          </div>
+        </div>
+        <div class="socials">
+          <a href="https://www.instagram.com/_kcamel/?hl=en" target="_blank" class="soc-btn" title="Instagram">📷</a>
+          <a href="https://www.youtube.com/@kcamel" target="_blank" class="soc-btn" title="YouTube">▶️</a>
+          <a href="https://github.com/Ntare-GAMA" target="_blank" class="soc-btn" title="GitHub">💻</a>
+        </div>
+      </div>
+      <div class="contact-form-box">
+        <form onsubmit="handleSubmit(event)">
+          <div class="form-row-grid">
+            <div class="fg"><label>Name</label><input type="text" placeholder="Your name" required></div>
+            <div class="fg"><label>Email</label><input type="email" placeholder="your@email.com" required></div>
+          </div>
+          <div class="fg">
+            <label>Project Type</label>
+            <select>
+              <option value="" disabled selected>Select a service</option>
+              <option>Film Production</option>
+              <option>Music Video</option>
+              <option>Music Production</option>
+              <option>Commercial</option>
+              <option>Documentary</option>
+              <option>Post-Production</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="fg"><label>Message</label><textarea placeholder="Tell us about your project — the story, the vision, the deadline..."></textarea></div>
+          <button type="submit" class="form-btn">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <a href="#home" class="nav-logo" style="text-decoration:none;">
+      <svg height="36" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="4" width="10" height="52" rx="1" fill="#3a2e1e"/>
+        <polygon points="14,30 38,4 50,4 26,30" fill="#3a2e1e"/>
+        <polygon points="14,32 50,56 38,56 14,36" fill="#e8a020"/>
+        <polygon points="20,56 38,56 20,46" fill="#c8840a"/>
+      </svg>
+      <div class="nav-logo-text">
+        <span>KCAMEL</span>
+        <span>PRODUCTION</span>
+      </div>
+    </a>
+    <div class="footer-copy">&copy; 2025 KCAMEL Production · All Rights Reserved · Kigali, Rwanda</div>
+    <div class="footer-links">
+      <a href="https://www.instagram.com/_kcamel/?hl=en" target="_blank">Instagram</a>
+      <a href="https://www.youtube.com/@kcamel" target="_blank">YouTube</a>
+      <a href="https://github.com/Ntare-GAMA" target="_blank">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Cursor
+const cur = document.getElementById('cursor');
+document.addEventListener('mousemove', e => { cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; });
+document.querySelectorAll('a,button,.p-card,.skill,.fb').forEach(el => {
+  el.addEventListener('mouseenter', () => cur.classList.add('big'));
+  el.addEventListener('mouseleave', () => cur.classList.remove('big'));
+});
+
+// Scroll header
+window.addEventListener('scroll', () => {
+  document.getElementById('header').classList.toggle('scrolled', scrollY > 80);
+});
+
+// Hamburger
+const ham = document.getElementById('hamburger'), mob = document.getElementById('mobMenu');
+ham.addEventListener('click', () => { ham.classList.toggle('open'); mob.classList.toggle('open'); });
+document.querySelectorAll('.ml').forEach(l => l.addEventListener('click', () => { ham.classList.remove('open'); mob.classList.remove('open'); }));
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior:'smooth', block:'start' }); }
+  });
+});
+
+// Portfolio hover video
+document.querySelectorAll('.p-card').forEach(card => {
+  const vid = card.querySelector('video');
+  if (!vid) return;
+  card.addEventListener('mouseenter', () => { vid.style.opacity='1'; vid.play(); });
+  card.addEventListener('mouseleave', () => { vid.pause(); vid.currentTime=0; vid.style.opacity='0'; });
+});
+
+// Portfolio filter
+function filter(cat, btn) {
+  document.querySelectorAll('.fb').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.p-card').forEach(c => {
+    const show = cat==='all' || c.dataset.cat===cat;
+    c.style.display = show ? 'block' : 'none';
+    // restore wide class only when all shown
+    if (cat==='all') {
+      if (c.classList.contains('wide')) c.style.gridColumn='span 2';
+    } else {
+      c.style.gridColumn='';
+    }
+  });
+}
+
+// Form
+function handleSubmit(e) {
+  e.preventDefault();
+  alert('Message sent! We\'ll respond within 24 hours.');
+  e.target.reset();
+}
+</script>
+</body>
+</html>
