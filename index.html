@@ -3,276 +3,51 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KCAMEL — Film & Music Production | Kigali, Rwanda</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;}
-:root{
-  --amber:#e8a020;
-  --rust:#c0392b;
-  --electric:#00d4ff;
-  --white:#ffffff;
-  --off-white:#f0ece0;
-  --black:#000;
-  --near:#0a0a0a;
-  --dark:#111;
-  --mid:#1c1c1c;
-  --gray:#555;
-  --light-gray:#999;
-}
-html{scroll-behavior:smooth;}
-body{font-family:'Helvetica Neue',Arial,sans-serif;background:var(--black);color:var(--off-white);overflow-x:hidden;}
-
-/* ── CURSOR ── */
-.cursor{width:12px;height:12px;background:var(--amber);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .1s,width .3s,height .3s;mix-blend-mode:difference;}
-.cursor.big{width:40px;height:40px;}
-
-/* ── NAV ── */
-header{position:fixed;top:0;width:100%;z-index:1000;padding:1.5rem 0;transition:all .4s;background:linear-gradient(180deg,rgba(0,0,0,.9) 0%,transparent 100%);}
-header.scrolled{padding:1rem 0;background:rgba(0,0,0,.96);border-bottom:1px solid rgba(232,160,32,.1);backdrop-filter:blur(16px);}
-nav{display:flex;justify-content:space-between;align-items:center;max-width:1600px;margin:0 auto;padding:0 4rem;}
-
-/* SVG Logo in nav */
-.nav-logo{text-decoration:none;display:flex;align-items:center;gap:.8rem;}
-.nav-logo svg{height:42px;width:auto;}
-.nav-logo-text{display:flex;flex-direction:column;line-height:1;}
-.nav-logo-text span:first-child{font-family:'Helvetica Neue',Arial,sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:4px;color:var(--amber);}
-.nav-logo-text span:last-child{font-size:.55rem;letter-spacing:3px;color:var(--light-gray);text-transform:uppercase;}
-
-.nav-links{display:flex;list-style:none;gap:2.8rem;align-items:center;}
-.nav-links a{color:var(--off-white);text-decoration:none;font-size:.8rem;letter-spacing:2.5px;text-transform:uppercase;font-weight:400;position:relative;transition:color .3s;}
-.nav-links a::after{content:'';position:absolute;bottom:-6px;left:0;width:0;height:1px;background:var(--amber);transition:width .35s;}
-.nav-links a:hover{color:var(--amber);}
-.nav-links a:hover::after{width:100%;}
-.nav-cta{padding:.7rem 1.8rem;border:1px solid var(--amber);color:var(--amber) !important;transition:all .35s !important;}
-.nav-cta:hover{background:var(--amber) !important;color:var(--black) !important;}
-.nav-cta::after{display:none !important;}
-
-/* hamburger */
-.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:1100;}
-.hamburger span{display:block;width:26px;height:1px;background:var(--amber);transition:all .4s;}
-.hamburger.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
-.hamburger.open span:nth-child(2){opacity:0;}
-.hamburger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
-.mob-menu{display:none;position:fixed;inset:0;background:rgba(0,0,0,.97);z-index:1050;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem;}
-.mob-menu.open{display:flex;}
-.mob-menu a{color:var(--off-white);text-decoration:none;font-size:1.6rem;letter-spacing:5px;text-transform:uppercase;font-weight:200;transition:color .3s;}
-.mob-menu a:hover{color:var(--amber);}
-
-/* ── HERO ── */
-.hero{height:100vh;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
-.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;filter:brightness(.35);}
-.hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(135deg,rgba(0,0,0,.7) 0%,rgba(192,57,43,.08) 50%,rgba(0,0,0,.8) 100%);}
-/* scan lines */
-.hero-overlay::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.08) 3px,rgba(0,0,0,.08) 4px);pointer-events:none;}
-.hero-content{position:relative;z-index:2;text-align:left;max-width:1600px;width:100%;padding:0 4rem;}
-.hero-eyebrow{font-size:.72rem;letter-spacing:5px;text-transform:uppercase;color:var(--amber);margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;animation:fadeUp .9s ease both;}
-.hero-eyebrow::before{content:'';display:block;width:40px;height:1px;background:var(--amber);}
-.hero-h1{font-size:10rem;font-weight:900;line-height:.9;letter-spacing:-2px;color:var(--white);animation:fadeUp .9s .1s ease both;position:relative;}
-/* glitch effect */
-.hero-h1::before,.hero-h1::after{content:'KCAMEL';position:absolute;top:0;left:0;width:100%;overflow:hidden;}
-.hero-h1::before{color:var(--electric);clip-path:polygon(0 20%,100% 20%,100% 30%,0 30%);animation:glitch1 4s infinite;opacity:.6;}
-.hero-h1::after{color:var(--rust);clip-path:polygon(0 60%,100% 60%,100% 70%,0 70%);animation:glitch2 4s infinite;opacity:.6;}
-@keyframes glitch1{0%,90%,100%{transform:none}92%{transform:translateX(-4px)}94%{transform:translateX(4px)}96%{transform:none}}
-@keyframes glitch2{0%,88%,100%{transform:none}90%{transform:translateX(4px)}93%{transform:translateX(-3px)}96%{transform:none}}
-.hero-sub{font-size:1.1rem;letter-spacing:6px;text-transform:uppercase;color:rgba(240,236,224,.6);margin:2rem 0 3rem;font-weight:300;animation:fadeUp .9s .2s ease both;}
-.hero-ctas{display:flex;gap:1.5rem;animation:fadeUp .9s .3s ease both;}
-.btn-primary{padding:1.1rem 2.8rem;background:var(--amber);color:var(--black);font-size:.8rem;letter-spacing:3px;text-transform:uppercase;text-decoration:none;font-weight:700;transition:all .4s;border:2px solid var(--amber);}
-.btn-primary:hover{background:transparent;color:var(--amber);}
-.btn-ghost{padding:1.1rem 2.8rem;background:transparent;color:var(--white);font-size:.8rem;letter-spacing:3px;text-transform:uppercase;text-decoration:none;font-weight:400;border:1px solid rgba(255,255,255,.3);transition:all .4s;}
-.btn-ghost:hover{border-color:var(--amber);color:var(--amber);}
-/* hero scroll indicator */
-.hero-scroll{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:.8rem;animation:fadeUp 1s .6s ease both;}
-.hero-scroll span{font-size:.65rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.4);}
-.scroll-line{width:1px;height:50px;background:linear-gradient(180deg,var(--amber),transparent);animation:scrollDrop 2s ease-in-out infinite;}
-@keyframes scrollDrop{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
-
-@keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
-
-/* ── TICKER ── */
-.ticker{background:var(--amber);padding:.7rem 0;overflow:hidden;white-space:nowrap;}
-.ticker-inner{display:inline-flex;animation:ticker 18s linear infinite;}
-.ticker-inner span{font-size:.72rem;letter-spacing:3px;text-transform:uppercase;color:var(--black);font-weight:700;padding:0 2.5rem;}
-.ticker-inner span::before{content:'◆';margin-right:2.5rem;}
-@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-
-/* ── SECTION SHELL ── */
-.section-wrap{max-width:1600px;margin:0 auto;padding:9rem 4rem;}
-.sec-label{font-size:.7rem;letter-spacing:4px;text-transform:uppercase;color:var(--amber);font-weight:400;margin-bottom:1rem;display:flex;align-items:center;gap:1rem;}
-.sec-label::before{content:'';display:block;width:30px;height:1px;background:var(--amber);}
-.sec-title{font-size:4.5rem;font-weight:900;line-height:1;color:var(--white);letter-spacing:-1px;margin-bottom:1.5rem;}
-.sec-title em{font-style:italic;color:var(--amber);}
-
-/* ── ABOUT ── */
-.about-bg{background:var(--near);}
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;}
-.about-video-wrap{position:relative;aspect-ratio:9/11;overflow:hidden;border:1px solid rgba(232,160,32,.15);}
-.about-video-wrap video{width:100%;height:100%;object-fit:cover;filter:grayscale(20%);}
-.about-badge{position:absolute;top:2rem;right:-1px;background:var(--amber);color:var(--black);padding:.8rem 1.5rem;font-size:.7rem;letter-spacing:2px;text-transform:uppercase;font-weight:700;}
-.about-number{position:absolute;bottom:2rem;left:2rem;font-size:6rem;font-weight:900;color:rgba(232,160,32,.08);line-height:1;pointer-events:none;}
-.about-text{display:flex;flex-direction:column;gap:2rem;}
-.about-text p{font-size:1.05rem;line-height:1.95;color:rgba(240,236,224,.8);font-weight:300;}
-.about-text p strong{color:var(--amber);font-weight:700;}
-.skills{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:.5rem;}
-.skill{padding:.55rem 1.3rem;border:1px solid rgba(232,160,32,.25);font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--amber);font-weight:400;transition:all .3s;cursor:default;}
-.skill:hover{background:var(--amber);color:var(--black);}
-
-/* ── STATS ── */
-.stats-band{background:var(--dark);border-top:1px solid rgba(232,160,32,.08);border-bottom:1px solid rgba(232,160,32,.08);}
-.stats-inner{max-width:1600px;margin:0 auto;padding:5rem 4rem;display:grid;grid-template-columns:repeat(4,1fr);gap:0;}
-.stat-cell{padding:3rem 2rem;border-right:1px solid rgba(255,255,255,.06);text-align:center;transition:background .4s;}
-.stat-cell:last-child{border-right:none;}
-.stat-cell:hover{background:rgba(232,160,32,.04);}
-.stat-n{font-size:4.5rem;font-weight:900;color:var(--amber);line-height:1;margin-bottom:.5rem;}
-.stat-l{font-size:.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--light-gray);}
-
-/* ── SHOWREEL ── */
-.showreel-bg{background:var(--black);}
-.showreel-frame{position:relative;aspect-ratio:16/9;max-width:1200px;margin:0 auto;overflow:hidden;border:1px solid rgba(232,160,32,.2);box-shadow:0 0 80px rgba(232,160,32,.08);}
-.showreel-frame iframe{width:100%;height:100%;border:none;display:block;}
-.yt-link{display:block;text-align:center;margin-top:2.5rem;}
-
-/* ── PORTFOLIO ── */
-.portfolio-bg{background:var(--near);}
-.filter-bar{display:flex;gap:0;margin-bottom:3.5rem;border:1px solid rgba(232,160,32,.2);width:fit-content;}
-.fb{padding:.85rem 2rem;background:transparent;border:none;border-right:1px solid rgba(232,160,32,.2);color:var(--light-gray);font-size:.72rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .3s;font-family:inherit;}
-.fb:last-child{border-right:none;}
-.fb.active,.fb:hover{background:var(--amber);color:var(--black);font-weight:700;}
-.p-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
-.p-card{position:relative;aspect-ratio:4/3;overflow:hidden;display:block;text-decoration:none;cursor:pointer;background:var(--mid);}
-.p-card.wide{grid-column:span 2;}
-.p-card img{width:100%;height:100%;object-fit:cover;transition:transform .7s,filter .5s;filter:grayscale(30%)brightness(.85);}
-.p-card video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s;z-index:1;}
-.p-card:hover img{transform:scale(1.08);filter:grayscale(0)brightness(1);}
-.p-card:hover video{opacity:1;}
-.p-mask{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,transparent 35%,rgba(0,0,0,.92) 100%);opacity:0;transition:opacity .4s;}
-.p-card:hover .p-mask{opacity:1;}
-.p-info{position:absolute;bottom:0;left:0;right:0;z-index:3;padding:2rem;transform:translateY(10px);opacity:0;transition:all .4s;}
-.p-card:hover .p-info{transform:none;opacity:1;}
-.p-tag-label{font-size:.65rem;letter-spacing:3px;text-transform:uppercase;color:var(--amber);margin-bottom:.4rem;}
-.p-title-text{font-size:1.5rem;font-weight:700;color:var(--white);letter-spacing:.5px;}
-/* always-visible small tag top-left */
-.p-badge{position:absolute;top:1.2rem;left:1.2rem;z-index:3;background:rgba(0,0,0,.7);border:1px solid rgba(232,160,32,.4);padding:.4rem .9rem;font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--amber);}
-
-/* ── EXPERIENCE ── */
-.exp-bg{background:var(--black);}
-.exp-list{max-width:1000px;}
-.exp-row{display:grid;grid-template-columns:80px 1fr;gap:3rem;padding:3.5rem 0;border-bottom:1px solid rgba(255,255,255,.06);transition:padding-left .4s;}
-.exp-row:hover{padding-left:1rem;}
-.exp-num{font-size:2.5rem;font-weight:900;color:rgba(232,160,32,.18);line-height:1;padding-top:.4rem;}
-.exp-body h3{font-size:1.7rem;font-weight:700;color:var(--white);margin-bottom:.4rem;}
-.exp-company{font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--amber);margin-bottom:1.2rem;}
-.exp-body p{font-size:1rem;line-height:1.85;color:rgba(240,236,224,.65);font-weight:300;}
-
-/* ── TEAM ── */
-.team-bg{background:var(--near);border-top:1px solid rgba(232,160,32,.06);}
-.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
-.team-card{position:relative;overflow:hidden;aspect-ratio:3/4;background:var(--mid);cursor:default;}
-.team-photo{width:100%;height:100%;object-fit:cover;filter:grayscale(60%)sepia(20%);transition:filter .6s,transform .6s;}
-.team-card:hover .team-photo{filter:grayscale(0)sepia(0);transform:scale(1.04);}
-.team-photo-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:7rem;background:linear-gradient(135deg,var(--mid),var(--dark));}
-.team-grad{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.92) 0%,transparent 50%);z-index:1;}
-.team-info{position:absolute;bottom:0;left:0;right:0;z-index:2;padding:2.5rem;}
-.team-name{font-size:1.6rem;font-weight:700;color:var(--white);margin-bottom:.3rem;}
-.team-role-txt{font-size:.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--amber);margin-bottom:1rem;}
-.team-bio-txt{font-size:.9rem;line-height:1.7;color:rgba(240,236,224,.65);font-weight:300;max-height:0;overflow:hidden;transition:max-height .5s;}
-.team-card:hover .team-bio-txt{max-height:100px;}
-
-/* ── CONTACT ── */
-.contact-bg{background:var(--dark);}
-.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:7rem;align-items:start;}
-.contact-left h3{font-size:3.5rem;font-weight:900;color:var(--white);line-height:1.1;margin-bottom:2rem;}
-.contact-left h3 em{color:var(--amber);font-style:italic;}
-.contact-left p{font-size:1.05rem;line-height:1.9;color:rgba(240,236,224,.7);font-weight:300;margin-bottom:2.5rem;}
-.contact-details{display:flex;flex-direction:column;gap:1.5rem;margin-bottom:3rem;}
-.cd-row{display:flex;flex-direction:column;gap:.3rem;}
-.cd-label{font-size:.65rem;letter-spacing:3px;text-transform:uppercase;color:var(--amber);}
-.cd-val{font-size:1rem;color:var(--off-white);text-decoration:none;font-weight:300;transition:color .3s;}
-.cd-val:hover{color:var(--amber);}
-.socials{display:flex;gap:1rem;}
-.soc-btn{width:52px;height:52px;border:1px solid rgba(232,160,32,.25);display:flex;align-items:center;justify-content:center;font-size:1.4rem;text-decoration:none;transition:all .4s;color:var(--off-white);}
-.soc-btn:hover{background:var(--amber);border-color:var(--amber);color:var(--black);}
-.contact-form-box{background:var(--near);padding:3.5rem;border:1px solid rgba(232,160,32,.1);}
-.form-row-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
-.fg{display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.5rem;}
-.fg label{font-size:.65rem;letter-spacing:3px;text-transform:uppercase;color:var(--amber);}
-.fg input,.fg textarea,.fg select{background:rgba(255,255,255,.04);border:1px solid rgba(232,160,32,.12);color:var(--off-white);padding:1.1rem 1.2rem;font-family:inherit;font-size:.95rem;font-weight:300;transition:border-color .3s;}
-.fg input:focus,.fg textarea:focus,.fg select:focus{outline:none;border-color:var(--amber);}
-.fg select option{background:var(--near);}
-.fg textarea{min-height:130px;resize:vertical;}
-.form-btn{width:100%;padding:1.3rem;background:var(--amber);color:var(--black);border:none;font-size:.8rem;letter-spacing:3px;text-transform:uppercase;font-weight:700;cursor:pointer;transition:all .4s;font-family:inherit;}
-.form-btn:hover{background:var(--white);}
-
-/* ── FOOTER ── */
-footer{background:var(--black);padding:4rem;border-top:1px solid rgba(232,160,32,.08);}
-.footer-inner{max-width:1600px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:2rem;}
-.footer-copy{font-size:.72rem;letter-spacing:2px;color:rgba(153,153,153,.6);text-transform:uppercase;}
-.footer-links{display:flex;gap:2rem;}
-.footer-links a{font-size:.72rem;letter-spacing:2px;color:rgba(153,153,153,.6);text-decoration:none;text-transform:uppercase;transition:color .3s;}
-.footer-links a:hover{color:var(--amber);}
-
-/* ── RESPONSIVE ── */
-@media(max-width:1200px){
-  nav{padding:0 3rem;}
-  .section-wrap{padding:7rem 3rem;}
-  .stats-inner{padding:4rem 3rem;}
-  .contact-grid{gap:4rem;}
-  .p-grid{grid-template-columns:repeat(2,1fr);}
-  .p-card.wide{grid-column:span 1;}
-  .sec-title{font-size:3.5rem;}
-}
-@media(max-width:960px){
-  .nav-links{display:none;}
-  .hamburger{display:flex;}
-  .about-grid{grid-template-columns:1fr;gap:3rem;}
-  .stats-inner{grid-template-columns:repeat(2,1fr);}
-  .stat-cell{border-bottom:1px solid rgba(255,255,255,.06);}
-  .team-grid{grid-template-columns:repeat(2,1fr);}
-  .contact-grid{grid-template-columns:1fr;gap:4rem;}
-  .hero-h1{font-size:7rem;}
-}
-@media(max-width:640px){
-  nav{padding:0 2rem;}
-  .section-wrap{padding:5rem 2rem;}
-  .stats-inner{padding:4rem 2rem;grid-template-columns:1fr 1fr;}
-  .hero-content{padding:0 2rem;}
-  .hero-h1{font-size:4.5rem;letter-spacing:-1px;}
-  .hero-sub{font-size:.85rem;letter-spacing:3px;}
-  .hero-ctas{flex-direction:column;gap:1rem;}
-  .btn-primary,.btn-ghost{text-align:center;}
-  .sec-title{font-size:2.8rem;}
-  .p-grid{grid-template-columns:1fr;}
-  .team-grid{grid-template-columns:1fr;}
-  .form-row-grid{grid-template-columns:1fr;}
-  .contact-form-box{padding:2rem 1.5rem;}
-  .footer-inner{flex-direction:column;text-align:center;}
-  .footer-links{justify-content:center;}
-  .exp-row{grid-template-columns:50px 1fr;gap:1.5rem;}
-}
-@media(max-width:420px){
-  .hero-h1{font-size:3.2rem;}
-  .sec-title{font-size:2.2rem;}
-  .stats-inner{grid-template-columns:1fr;}
-}
-</style>
+<title>KCAMEL — Film &amp; Music Production | Kigali, Rwanda</title>
+<meta name="description" content="KCAMEL is a film and music production house in Kigali, Rwanda — films, music videos and commercials.">
+<meta name="theme-color" content="#04050a">
+<meta property="og:title" content="KCAMEL Production">
+<meta property="og:description" content="Film & music production house — Kigali, Rwanda.">
+<meta property="og:image" content="https://ntare-gama.github.io/Responsive-Web-Design/Assets/OFFICIAL.png">
+<link rel="icon" type="image/svg+xml" href="assets/logo-mark.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,800;1,900&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
 </head>
 <body>
 
-<div class="cursor" id="cursor"></div>
+<!-- KCAMEL logo mark (traced from the KCAMEL logo) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="kmark" viewBox="-2 -2 110 134">
+    <path d="M0 19 L17 3 L20 3 L20 41 L60 1 L104 1 L20 85 L20 129 L15 129 L0 114 Z" fill="currentColor"/>
+    <g stroke="currentColor" stroke-width="13" stroke-linecap="round">
+      <line x1="35.8" y1="76.6" x2="60.2" y2="117.4"/>
+      <line x1="48.8" y1="65.6" x2="73.7" y2="107.4"/>
+      <line x1="67.3" y1="55.6" x2="86.7" y2="95.4"/>
+    </g>
+  </symbol>
+</svg>
+
+<!-- The galaxy: fixed behind the whole page -->
+<canvas id="galaxy" aria-hidden="true"></canvas>
+<div class="space-fallback" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+
+<div class="cursor" id="cursor" aria-hidden="true"></div>
 
 <!-- NAV -->
 <header id="header">
   <nav>
-    <a href="#home" class="nav-logo">
-      <svg height="42" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
-        <rect x="4" y="4" width="10" height="52" rx="1" fill="#3a2e1e"/>
-        <polygon points="14,30 38,4 50,4 26,30" fill="#3a2e1e"/>
-        <polygon points="14,32 50,56 38,56 14,36" fill="#e8a020"/>
-        <polygon points="20,56 38,56 20,46" fill="#c8840a"/>
-      </svg>
-      <div class="nav-logo-text">
-        <span>KCAMEL</span>
-        <span>PRODUCTION</span>
-      </div>
+    <a href="#home" class="nav-logo" aria-label="KCAMEL Production — home">
+      <svg class="nav-mark"><use href="#kmark"/></svg>
+      <div class="nav-logo-text"><span>KCAMEL</span><span>Production</span></div>
     </a>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
@@ -282,7 +57,7 @@ footer{background:var(--black);padding:4rem;border-top:1px solid rgba(232,160,32
       <li><a href="#team">Team</a></li>
       <li><a href="#contact" class="nav-cta">Contact</a></li>
     </ul>
-    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </nav>
 </header>
 
@@ -295,30 +70,27 @@ footer{background:var(--black);padding:4rem;border-top:1px solid rgba(232,160,32
   <a href="#contact" class="ml">Contact</a>
 </div>
 
+<main>
+
 <!-- HERO -->
 <section id="home" class="hero">
-  <video class="hero-video" autoplay muted loop playsinline>
-    <source src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/KCAMEL%201.mp4" type="video/mp4">
-  </video>
-  <div class="hero-overlay"></div>
+  <img class="planet hero-planet" data-planet="hero" data-speed="0.25" src="assets/planets/hero.png" alt="">
   <div class="hero-content">
-    <div class="hero-eyebrow">Kigali, Rwanda · Est. KCAMEL</div>
+    <div class="hero-eyebrow">Kigali, Rwanda · 1°56′S 30°03′E</div>
     <h1 class="hero-h1">KCAMEL</h1>
     <div class="hero-sub">Film &amp; Music Production</div>
+    <p class="hero-lede">Stories from Kigali, made for every screen in the galaxy.</p>
     <div class="hero-ctas">
       <a href="#portfolio" class="btn-primary">View Our Work</a>
       <a href="#showreel" class="btn-ghost">Watch Showreel</a>
     </div>
   </div>
-  <div class="hero-scroll">
-    <span>Scroll</span>
-    <div class="scroll-line"></div>
-  </div>
+  <div class="hero-scroll"><span>Scroll to explore</span><div class="scroll-line"></div></div>
 </section>
 
 <!-- TICKER -->
-<div class="ticker">
-  <div class="ticker-inner" id="ticker">
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-inner">
     <span>Film Production</span><span>Music Videos</span><span>Cinematography</span>
     <span>Lighting Design</span><span>Direction</span><span>Post-Production</span>
     <span>Scriptwriting</span><span>Visual Storytelling</span><span>Kigali Rwanda</span>
@@ -329,32 +101,28 @@ footer{background:var(--black);padding:4rem;border-top:1px solid rgba(232,160,32
 </div>
 
 <!-- ABOUT -->
-<section id="about" class="about-bg">
+<section id="about" class="section">
+  <img class="planet float-planet about-planet" data-planet="about" data-speed="-0.15" src="assets/planets/about.png" alt="">
   <div class="section-wrap">
     <div class="about-grid">
-      <div class="about-video-wrap">
-        <video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;">
+      <div class="about-video-wrap reveal">
+        <video autoplay muted loop playsinline preload="metadata">
           <source src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/KCAMEL%202.mp4" type="video/mp4">
         </video>
         <div class="about-badge">Kigali, Rwanda</div>
         <div class="about-number">01</div>
       </div>
       <div class="about-text">
-        <div>
+        <div class="reveal">
           <div class="sec-label">Who We Are</div>
           <h2 class="sec-title">One Word.<br><em>Cinematographer.</em></h2>
         </div>
-        <p>KCAMEL is a premier film and music production house based in Kigali, Rwanda. We don't just capture moments — <strong>we architect them.</strong> From mastering light on a Kigali rooftop to scripting the emotional arc of an entire production, every frame carries deliberate intention.</p>
-        <p>Managing Director <strong>Ntare GAMA Allan</strong> is the full creative stack in one person — director, gaffer, scriptwriter. Cinematic vision meets technical mastery, delivering stories that resonate across Rwanda and beyond.</p>
-        <div class="skills">
-          <span class="skill">Cinematography</span>
-          <span class="skill">Lighting Design</span>
-          <span class="skill">Direction</span>
-          <span class="skill">Visual Storytelling</span>
-          <span class="skill">Film Production</span>
-          <span class="skill">Music Production</span>
-          <span class="skill">Scriptwriting</span>
-          <span class="skill">Post-Production</span>
+        <p class="reveal">KCAMEL is a premier film and music production house based in Kigali, Rwanda. We don't just capture moments — <strong>we architect them.</strong> From mastering light on a Kigali rooftop to scripting the emotional arc of an entire production, every frame carries deliberate intention.</p>
+        <p class="reveal">Managing Director <strong>NTARE GAMA Allan</strong> is the full creative stack in one person — director, gaffer, scriptwriter. Cinematic vision meets technical mastery, delivering stories that resonate across Rwanda and beyond.</p>
+        <div class="skills reveal">
+          <span class="skill">Cinematography</span><span class="skill">Lighting Design</span><span class="skill">Direction</span>
+          <span class="skill">Visual Storytelling</span><span class="skill">Film Production</span><span class="skill">Music Production</span>
+          <span class="skill">Scriptwriting</span><span class="skill">Post-Production</span>
         </div>
       </div>
     </div>
@@ -364,140 +132,154 @@ footer{background:var(--black);padding:4rem;border-top:1px solid rgba(232,160,32
 <!-- STATS -->
 <div class="stats-band">
   <div class="stats-inner">
-    <div class="stat-cell"><div class="stat-n">1.28K+</div><div class="stat-l">YouTube Subscribers</div></div>
-    <div class="stat-cell"><div class="stat-n">11+</div><div class="stat-l">Projects Produced</div></div>
-    <div class="stat-cell"><div class="stat-n">5+</div><div class="stat-l">Years Active</div></div>
-    <div class="stat-cell"><div class="stat-n">100%</div><div class="stat-l">Creative Dedication</div></div>
+    <div class="stat-cell reveal"><div class="stat-n" data-count="1.28" data-decimals="2" data-suffix="K+">0</div><div class="stat-l">YouTube Subscribers</div></div>
+    <div class="stat-cell reveal"><div class="stat-n" data-count="11" data-suffix="+">0</div><div class="stat-l">Projects Produced</div></div>
+    <div class="stat-cell reveal"><div class="stat-n" data-count="5" data-suffix="+">0</div><div class="stat-l">Years Active</div></div>
+    <div class="stat-cell reveal"><div class="stat-n" data-count="100" data-suffix="%">0</div><div class="stat-l">Creative Dedication</div></div>
   </div>
 </div>
 
 <!-- SHOWREEL -->
-<section id="showreel" class="showreel-bg">
+<section id="showreel" class="section">
   <div class="section-wrap">
-    <div class="sec-label">Our Work in Motion</div>
-    <h2 class="sec-title" style="margin-bottom:3.5rem;">Watch the <em>Showreel</em></h2>
-    <div class="showreel-frame">
-      <iframe src="https://www.youtube.com/embed/videoseries?list=UULFf4rDcCCXX6xBkBaDOPtbw&autoplay=0"
-        title="KCAMEL Channel" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-      </iframe>
+    <div class="reveal">
+      <div class="sec-label">Our Work in Motion</div>
+      <h2 class="sec-title">Watch the <em>Showreel</em></h2>
     </div>
-    <div class="yt-link">
-      <a href="https://www.youtube.com/@kcamel" target="_blank" class="btn-ghost" style="display:inline-block;margin-top:2rem;">View Full Channel ↗</a>
+    <div class="showreel-frame reveal" id="screen">
+      <button class="screen-poster" id="screenPoster" aria-label="Play KCAMEL showreel">
+        <img src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/OFFICIAL.png" alt="" loading="lazy">
+        <span class="screen-play"><span class="play-ico"></span></span>
+      </button>
+    </div>
+    <div class="yt-link reveal">
+      <a href="https://www.youtube.com/@kcamel" target="_blank" rel="noopener" class="btn-ghost">View Full Channel ↗</a>
     </div>
   </div>
 </section>
 
-<!-- PORTFOLIO -->
-<section id="portfolio" class="portfolio-bg">
+<!-- PORTFOLIO: a solar system of work -->
+<section id="portfolio" class="section">
   <div class="section-wrap">
-    <div class="sec-label">Selected Works</div>
-    <h2 class="sec-title" style="margin-bottom:2.5rem;"><em>Portfolio</em></h2>
-    <div class="filter-bar">
-      <button class="fb active" onclick="filter('all',this)">All</button>
-      <button class="fb" onclick="filter('film',this)">Film</button>
-      <button class="fb" onclick="filter('music',this)">Music</button>
-      <button class="fb" onclick="filter('commercial',this)">Commercial</button>
+    <div class="reveal">
+      <div class="sec-label">Selected Works</div>
+      <h2 class="sec-title">The <em>Portfolio</em> System</h2>
+      <p class="sec-intro">Every project belongs to a world. Pick a planet to explore its work — or the star at the centre for everything.</p>
     </div>
-    <div class="p-grid" id="pgrid">
 
-      <a class="p-card wide" data-cat="film" href="https://www.youtube.com/@kcamel" target="_blank">
+    <div class="orrery reveal" id="orrery">
+      <button class="sun is-active" data-filter="all" aria-label="Show all work">
+        <span class="sun-glow"></span>
+        <svg class="sun-mark"><use href="#kmark"/></svg>
+        <span class="world-label">All Work</span>
+      </button>
+      <div class="orbit o1"><div class="orbiter" style="--dur:46s;--start:-8s"><div class="upright">
+        <button class="world" data-filter="film" aria-label="Show film work">
+          <img class="planet" data-planet="film" src="assets/planets/film.png" alt="">
+          <span class="world-label">Film <small>6 projects</small></span>
+        </button>
+      </div></div></div>
+      <div class="orbit o2"><div class="orbiter" style="--dur:70s;--start:-40s"><div class="upright">
+        <button class="world" data-filter="music" aria-label="Show music video work">
+          <img class="planet" data-planet="music" src="assets/planets/music.png" alt="">
+          <span class="world-label">Music <small>3 projects</small></span>
+        </button>
+      </div></div></div>
+      <div class="orbit o3"><div class="orbiter" style="--dur:96s;--start:-20s"><div class="upright">
+        <button class="world" data-filter="commercial" aria-label="Show commercial work">
+          <img class="planet" data-planet="commercial" src="assets/planets/commercial.png" alt="">
+          <span class="world-label">Commercial <small>2 projects</small></span>
+        </button>
+      </div></div></div>
+    </div>
+
+    <div class="filter-bar reveal" role="tablist" aria-label="Filter work">
+      <button class="fb active" data-filter="all">All</button>
+      <button class="fb" data-filter="film">Film</button>
+      <button class="fb" data-filter="music">Music</button>
+      <button class="fb" data-filter="commercial">Commercial</button>
+    </div>
+
+    <div class="p-grid" id="pgrid">
+      <a class="p-card wide" data-cat="film" href="https://www.youtube.com/@kcamel" target="_blank" rel="noopener">
         <img src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/OFFICIAL.png" alt="1785" loading="lazy">
-        <video muted loop playsinline><source src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/KCAMEL%202.mp4" type="video/mp4"></video>
-        <div class="p-badge">Film</div>
-        <div class="p-mask"></div>
+        <video muted loop playsinline preload="none"><source src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/KCAMEL%202.mp4" type="video/mp4"></video>
+        <div class="p-badge">Film</div><div class="p-mask"></div>
         <div class="p-info"><div class="p-tag-label">Film · KCAMEL Production</div><div class="p-title-text">1785</div></div>
       </a>
-
-      <a class="p-card" data-cat="film" href="https://www.youtube.com/@kcamel" target="_blank">
+      <a class="p-card" data-cat="film" href="https://www.youtube.com/@kcamel" target="_blank" rel="noopener">
         <img src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/Brohood.jpg" alt="Brotherhood" loading="lazy">
-        <video muted loop playsinline><source src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/KCAMEL%203.mp4" type="video/mp4"></video>
-        <div class="p-badge">Film</div>
-        <div class="p-mask"></div>
+        <video muted loop playsinline preload="none"><source src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/KCAMEL%203.mp4" type="video/mp4"></video>
+        <div class="p-badge">Film</div><div class="p-mask"></div>
         <div class="p-info"><div class="p-tag-label">Film · KCAMEL Production</div><div class="p-title-text">Brotherhood</div></div>
       </a>
-
-      <a class="p-card" data-cat="film" href="https://www.youtube.com/@kcamel" target="_blank">
-        <img src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/4.jpg" alt="Sorrow" loading="lazy">
-        <div class="p-badge">Film</div>
-        <div class="p-mask"></div>
+      <a class="p-card" data-cat="film" href="https://www.youtube.com/@kcamel" target="_blank" rel="noopener">
+        <img src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/4.jpg" alt="Sorrow — The Beginning" loading="lazy">
+        <div class="p-badge">Film</div><div class="p-mask"></div>
         <div class="p-info"><div class="p-tag-label">Film · KCAMEL Production</div><div class="p-title-text">Sorrow — The Beginning</div></div>
       </a>
-
-      <a class="p-card" data-cat="music" href="https://www.youtube.com/@kcamel" target="_blank">
+      <a class="p-card" data-cat="music" href="https://www.youtube.com/@kcamel" target="_blank" rel="noopener">
         <img src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/3.jpg" alt="Rap Houdini" loading="lazy">
-        <div class="p-badge">Music</div>
-        <div class="p-mask"></div>
+        <div class="p-badge">Music</div><div class="p-mask"></div>
         <div class="p-info"><div class="p-tag-label">Music Video · KCAMEL Production</div><div class="p-title-text">Rap Houdini</div></div>
       </a>
-
-      <a class="p-card" data-cat="music" href="https://www.youtube.com/@kcamel" target="_blank">
+      <a class="p-card" data-cat="music" href="https://www.youtube.com/@kcamel" target="_blank" rel="noopener">
         <img src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/1.jpg" alt="Bad Nights" loading="lazy">
-        <div class="p-badge">Music</div>
-        <div class="p-mask"></div>
+        <div class="p-badge">Music</div><div class="p-mask"></div>
         <div class="p-info"><div class="p-tag-label">Music Video · KCAMEL Production</div><div class="p-title-text">Bad Nights</div></div>
       </a>
-
-      <a class="p-card" data-cat="music" href="https://www.youtube.com/@kcamel" target="_blank">
+      <a class="p-card" data-cat="music" href="https://www.youtube.com/@kcamel" target="_blank" rel="noopener">
         <img src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/7.jpg" alt="Bazooka" loading="lazy">
-        <div class="p-badge">Music</div>
-        <div class="p-mask"></div>
+        <div class="p-badge">Music</div><div class="p-mask"></div>
         <div class="p-info"><div class="p-tag-label">Music Video · KCAMEL Production</div><div class="p-title-text">Bazooka</div></div>
       </a>
-
-      <a class="p-card" data-cat="commercial" href="https://www.youtube.com/@kcamel" target="_blank">
+      <a class="p-card" data-cat="commercial" href="https://www.youtube.com/@kcamel" target="_blank" rel="noopener">
         <img src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/2.jpg" alt="BMW" loading="lazy">
-        <div class="p-badge">Commercial</div>
-        <div class="p-mask"></div>
+        <div class="p-badge">Commercial</div><div class="p-mask"></div>
         <div class="p-info"><div class="p-tag-label">Commercial · KCAMEL Production</div><div class="p-title-text">BMW</div></div>
       </a>
-
-      <a class="p-card" data-cat="commercial" href="https://www.youtube.com/@kcamel" target="_blank">
+      <a class="p-card" data-cat="commercial" href="https://www.youtube.com/@kcamel" target="_blank" rel="noopener">
         <img src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/POYO.png" alt="POYO" loading="lazy">
-        <div class="p-badge">Commercial</div>
-        <div class="p-mask"></div>
+        <div class="p-badge">Commercial</div><div class="p-mask"></div>
         <div class="p-info"><div class="p-tag-label">Commercial · KCAMEL Production</div><div class="p-title-text">POYO</div></div>
       </a>
-
-      <a class="p-card" data-cat="film" href="https://www.youtube.com/@kcamel" target="_blank">
+      <a class="p-card" data-cat="film" href="https://www.youtube.com/@kcamel" target="_blank" rel="noopener">
         <img src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/5.jpg" alt="Umubyeyi" loading="lazy">
-        <div class="p-badge">Film</div>
-        <div class="p-mask"></div>
+        <div class="p-badge">Film</div><div class="p-mask"></div>
         <div class="p-info"><div class="p-tag-label">Film · KCAMEL Production</div><div class="p-title-text">Umubyeyi</div></div>
       </a>
-
-      <a class="p-card" data-cat="film" href="https://www.youtube.com/@kcamel" target="_blank">
+      <a class="p-card" data-cat="film" href="https://www.youtube.com/@kcamel" target="_blank" rel="noopener">
         <img src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/6.jpg" alt="Shekinah" loading="lazy">
-        <div class="p-badge">Film</div>
-        <div class="p-mask"></div>
+        <div class="p-badge">Film</div><div class="p-mask"></div>
         <div class="p-info"><div class="p-tag-label">Film · KCAMEL Production</div><div class="p-title-text">Shekinah</div></div>
       </a>
-
-      <a class="p-card wide" data-cat="film" href="https://www.youtube.com/@kcamel" target="_blank">
+      <a class="p-card wide" data-cat="film" href="https://www.youtube.com/@kcamel" target="_blank" rel="noopener">
         <img src="https://ntare-gama.github.io/Responsive-Web-Design/Assets/8.jpg" alt="Legend" loading="lazy">
-        <div class="p-badge">Film</div>
-        <div class="p-mask"></div>
+        <div class="p-badge">Film</div><div class="p-mask"></div>
         <div class="p-info"><div class="p-tag-label">Film · KCAMEL Production</div><div class="p-title-text">Legend</div></div>
       </a>
-
     </div>
   </div>
 </section>
 
 <!-- EXPERIENCE -->
-<section id="experience" class="exp-bg">
+<section id="experience" class="section">
+  <img class="planet float-planet exp-planet" data-planet="experience" data-speed="-0.2" src="assets/planets/experience.png" alt="">
   <div class="section-wrap">
-    <div class="sec-label">Career</div>
-    <h2 class="sec-title" style="margin-bottom:4rem;">Our <em>Experience</em></h2>
+    <div class="reveal">
+      <div class="sec-label">Career</div>
+      <h2 class="sec-title">Our <em>Experience</em></h2>
+    </div>
     <div class="exp-list">
-      <div class="exp-row">
+      <div class="exp-row reveal">
         <div class="exp-num">01</div>
         <div class="exp-body">
           <h3>Managing Director</h3>
-          <div class="exp-company">KCAMEL — Film & Music Production · Kigali, Rwanda</div>
+          <div class="exp-company">KCAMEL — Film &amp; Music Production · Kigali, Rwanda</div>
           <p>Leading end-to-end production from pre-production scripting and storyboarding through lighting design, directing, and post-production delivery. Building KCAMEL into East Africa's leading creative production house.</p>
         </div>
       </div>
-      <div class="exp-row">
+      <div class="exp-row reveal">
         <div class="exp-num">02</div>
         <div class="exp-body">
           <h3>Gaffer &amp; Scriptwriter</h3>
@@ -505,7 +287,7 @@ footer{background:var(--black);padding:4rem;border-top:1px solid rgba(232,160,32
           <p>Designing complex lighting setups that shape mood and narrative across multiple productions. Crafting scripts that give images something true and powerful to say.</p>
         </div>
       </div>
-      <div class="exp-row">
+      <div class="exp-row reveal">
         <div class="exp-num">03</div>
         <div class="exp-body">
           <h3>Director of Photography</h3>
@@ -513,7 +295,7 @@ footer{background:var(--black);padding:4rem;border-top:1px solid rgba(232,160,32
           <p>Bringing cinematic vision to music videos, short films, documentaries, and commercial content across Rwanda and the broader East African region.</p>
         </div>
       </div>
-      <div class="exp-row">
+      <div class="exp-row reveal">
         <div class="exp-num">04</div>
         <div class="exp-body">
           <h3>Researcher</h3>
@@ -526,36 +308,42 @@ footer{background:var(--black);padding:4rem;border-top:1px solid rgba(232,160,32
 </section>
 
 <!-- TEAM -->
-<section id="team" class="team-bg">
+<section id="team" class="section">
   <div class="section-wrap">
-    <div class="sec-label">Creative Excellence</div>
-    <h2 class="sec-title" style="margin-bottom:3.5rem;">The <em>Team</em></h2>
+    <div class="reveal">
+      <div class="sec-label">Creative Excellence</div>
+      <h2 class="sec-title">The <em>Team</em></h2>
+    </div>
     <div class="team-grid">
-      <div class="team-card">
-        <div class="team-photo-placeholder">🎬</div>
+      <!-- To add a photo: put the image in assets/team/ with the file name below. -->
+      <div class="team-card reveal">
+        <img class="team-photo" src="assets/team/audio-lead.jpg" alt="Cinqo, Audio Lead" style="object-position:38% 30%" data-planet-fallback="audio">
         <div class="team-grad"></div>
         <div class="team-info">
-          <div class="team-name">Ntare GAMA Allan</div>
-          <div class="team-role-txt">Managing Director · Cinematographer</div>
-          <div class="team-bio-txt">Visionary filmmaker and entrepreneur. Director, gaffer, and scriptwriter — the full creative stack. Leading KCAMEL's cinematic vision from Kigali to the world.</div>
-        </div>
-      </div>
-      <div class="team-card">
-        <div class="team-photo-placeholder">🎵</div>
-        <div class="team-grad"></div>
-        <div class="team-info">
-          <div class="team-name">Music Producer</div>
-          <div class="team-role-txt">Head of Music Production</div>
+          <div class="team-orbit">Orbit 01</div>
+          <div class="team-name">Cinqo</div>
+          <div class="team-role-txt">Audio Lead · Head of Music Production</div>
           <div class="team-bio-txt">Crafting sonic landscapes that elevate every visual story KCAMEL tells. Expert in recording, mixing, and mastering for film and standalone releases.</div>
         </div>
       </div>
-      <div class="team-card">
-        <div class="team-photo-placeholder">✂️</div>
+      <div class="team-card featured reveal">
+        <img class="team-photo" src="assets/team/md.jpg" alt="NTARE GAMA Allan, MD" style="object-position:45% 22%" data-planet-fallback="md">
         <div class="team-grad"></div>
         <div class="team-info">
-          <div class="team-name">Lead Editor</div>
-          <div class="team-role-txt">Post-Production Supervisor</div>
-          <div class="team-bio-txt">Master of narrative in the edit suite. Precision color grading and visual storytelling that transforms raw footage into cinematic experiences.</div>
+          <div class="team-orbit">Centre of the system</div>
+          <div class="team-name">NTARE GAMA Allan</div>
+          <div class="team-role-txt">MD · Managing Director · Cinematographer</div>
+          <div class="team-bio-txt">Visionary filmmaker and entrepreneur. Director, gaffer, and scriptwriter — the full creative stack. Leading KCAMEL's cinematic vision from Kigali to the world.</div>
+        </div>
+      </div>
+      <div class="team-card reveal">
+        <img class="team-photo" src="assets/team/visual-lead.jpg" alt="HD, Visual Lead" style="object-position:50% 18%" data-planet-fallback="visual">
+        <div class="team-grad"></div>
+        <div class="team-info">
+          <div class="team-orbit">Orbit 02</div>
+          <div class="team-name">HD</div>
+          <div class="team-role-txt">Visual Lead · Post-Production Supervisor</div>
+          <div class="team-bio-txt">Master of narrative in the edit suite. Precision colour grading and visual storytelling that transforms raw footage into cinematic experiences.</div>
         </div>
       </div>
     </div>
@@ -563,141 +351,374 @@ footer{background:var(--black);padding:4rem;border-top:1px solid rgba(232,160,32
 </section>
 
 <!-- CONTACT -->
-<section id="contact" class="contact-bg">
+<section id="contact" class="section">
+  <img class="planet float-planet contact-planet" data-planet="contact" data-speed="-0.18" src="assets/planets/contact.png" alt="">
   <div class="section-wrap">
     <div class="contact-grid">
-      <div class="contact-left">
+      <div class="contact-left reveal">
         <div class="sec-label">Get In Touch</div>
         <h3>Start a <em>Conversation</em></h3>
         <p>Whether it's a film, a brand story, a music video, or a wild creative idea — we want to hear it. Based in Kigali, working across Rwanda and beyond.</p>
         <div class="contact-details">
-          <div class="cd-row">
-            <span class="cd-label">Email</span>
-            <a href="mailto:ntaregama@gmail.com" class="cd-val">ntaregama@gmail.com</a>
-          </div>
-          <div class="cd-row">
-            <span class="cd-label">Location</span>
-            <span class="cd-val">Kigali, Rwanda</span>
-          </div>
-          <div class="cd-row">
-            <span class="cd-label">GitHub</span>
-            <a href="https://github.com/Ntare-GAMA" target="_blank" class="cd-val">github.com/Ntare-GAMA</a>
-          </div>
+          <div class="cd-row"><span class="cd-label">Email</span><a href="mailto:kcamelstudios@gmail.com" class="cd-val">kcamelstudios@gmail.com</a></div>
+          <div class="cd-row"><span class="cd-label">Location</span><span class="cd-val">Kigali, Rwanda</span></div>
         </div>
         <div class="socials">
-          <a href="https://www.instagram.com/_kcamel/?hl=en" target="_blank" class="soc-btn" title="Instagram">📷</a>
-          <a href="https://www.youtube.com/@kcamel" target="_blank" class="soc-btn" title="YouTube">▶️</a>
-          <a href="https://github.com/Ntare-GAMA" target="_blank" class="soc-btn" title="GitHub">💻</a>
+          <a href="https://www.instagram.com/_kcamel/" target="_blank" rel="noopener" class="soc-btn">Instagram</a>
+          <a href="https://www.youtube.com/@kcamel" target="_blank" rel="noopener" class="soc-btn">YouTube</a>
+          <a href="https://github.com/Ntare-GAMA" target="_blank" rel="noopener" class="soc-btn">GitHub</a>
         </div>
       </div>
-      <div class="contact-form-box">
-        <form onsubmit="handleSubmit(event)">
+      <div class="contact-form-box reveal">
+        <form id="contactForm" novalidate>
           <div class="form-row-grid">
-            <div class="fg"><label>Name</label><input type="text" placeholder="Your name" required></div>
-            <div class="fg"><label>Email</label><input type="email" placeholder="your@email.com" required></div>
+            <div class="fg"><label for="fName">Name</label><input id="fName" name="name" type="text" placeholder="Your name" required></div>
+            <div class="fg"><label for="fEmail">Email</label><input id="fEmail" name="email" type="email" placeholder="your@email.com" required></div>
           </div>
           <div class="fg">
-            <label>Project Type</label>
-            <select>
+            <label for="fType">Project Type</label>
+            <select id="fType" name="type" required>
               <option value="" disabled selected>Select a service</option>
-              <option>Film Production</option>
-              <option>Music Video</option>
-              <option>Music Production</option>
-              <option>Commercial</option>
-              <option>Documentary</option>
-              <option>Post-Production</option>
-              <option>Other</option>
+              <option>Film Production</option><option>Music Video</option><option>Music Production</option>
+              <option>Commercial</option><option>Documentary</option><option>Post-Production</option><option>Other</option>
             </select>
           </div>
-          <div class="fg"><label>Message</label><textarea placeholder="Tell us about your project — the story, the vision, the deadline..."></textarea></div>
+          <div class="fg"><label for="fMsg">Message</label><textarea id="fMsg" name="message" placeholder="Tell us about your project — the story, the vision, the deadline..." required></textarea></div>
           <button type="submit" class="form-btn">Send Message</button>
+          <p class="form-note" id="formNote">Opens your email app with the message ready to send.</p>
         </form>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
+</main>
+
 <footer>
   <div class="footer-inner">
-    <a href="#home" class="nav-logo" style="text-decoration:none;">
-      <svg height="36" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
-        <rect x="4" y="4" width="10" height="52" rx="1" fill="#3a2e1e"/>
-        <polygon points="14,30 38,4 50,4 26,30" fill="#3a2e1e"/>
-        <polygon points="14,32 50,56 38,56 14,36" fill="#e8a020"/>
-        <polygon points="20,56 38,56 20,46" fill="#c8840a"/>
-      </svg>
-      <div class="nav-logo-text">
-        <span>KCAMEL</span>
-        <span>PRODUCTION</span>
-      </div>
-    </a>
-    <div class="footer-copy">&copy; 2025 KCAMEL Production · All Rights Reserved · Kigali, Rwanda</div>
+    <a href="#home" class="nav-logo"><svg class="nav-mark"><use href="#kmark"/></svg><div class="nav-logo-text"><span>KCAMEL</span><span>Production</span></div></a>
+    <div class="footer-copy">&copy; <span id="year">2026</span> KCAMEL Production · All Rights Reserved · Kigali, Rwanda</div>
     <div class="footer-links">
-      <a href="https://www.instagram.com/_kcamel/?hl=en" target="_blank">Instagram</a>
-      <a href="https://www.youtube.com/@kcamel" target="_blank">YouTube</a>
-      <a href="https://github.com/Ntare-GAMA" target="_blank">GitHub</a>
+      <a href="https://www.instagram.com/_kcamel/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.youtube.com/@kcamel" target="_blank" rel="noopener">YouTube</a>
+      <a href="https://github.com/Ntare-GAMA" target="_blank" rel="noopener">GitHub</a>
     </div>
   </div>
 </footer>
 
-<script>
-// Cursor
-const cur = document.getElementById('cursor');
-document.addEventListener('mousemove', e => { cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; });
-document.querySelectorAll('a,button,.p-card,.skill,.fb').forEach(el => {
-  el.addEventListener('mouseenter', () => cur.classList.add('big'));
-  el.addEventListener('mouseleave', () => cur.classList.remove('big'));
+<script src="assets/js/main.js" defer></script>
+
+<!-- ============ THE GALAXY (Three.js) ============ -->
+<script type="module">
+import * as THREE from 'three';
+
+const canvas = document.getElementById('galaxy');
+const root = document.documentElement;
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const small = window.innerWidth < 760;
+
+let renderer;
+try {
+  renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false, powerPreference: 'high-performance' });
+} catch (e) { root.classList.add('no-webgl'); throw e; }
+let dprCap = Math.min(window.devicePixelRatio || 1, 1.5);
+renderer.setPixelRatio(dprCap);
+renderer.setClearColor(0x020308, 1);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 400);
+
+const rnd = Math.random;
+const gauss = () => { let u = 0, v = 0; while (!u) u = rnd(); while (!v) v = rnd(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); };
+
+/* ---------- Milky Way: barred spiral built from stars ---------- */
+const galaxy = new THREE.Group();
+scene.add(galaxy);
+
+const R = 11;
+const STARS = small ? 34000 : 70000;
+const pos = new Float32Array(STARS * 3), col = new Float32Array(STARS * 3), siz = new Float32Array(STARS), tw = new Float32Array(STARS);
+const cCore = new THREE.Color('#ffcf94'), cMid = new THREE.Color('#fff1df'), cOut = new THREE.Color('#9fb9ff');
+const cPink = new THREE.Color('#ff8aa6'), cBlue = new THREE.Color('#c4d6ff');
+const tmp = new THREE.Color();
+const ARM_K = 2.3, R0 = 1.4;
+for (let i = 0; i < STARS; i++) {
+  let x, y, z, r, s = 0.55 + rnd() * 0.9, c;
+  const roll = rnd();
+  if (roll < 0.2) {                      // bulge + bar
+    x = gauss() * 1.25 * 1.5; z = gauss() * 0.75; y = gauss() * 0.42;
+    const a = 0.45, cx = x * Math.cos(a) - z * Math.sin(a), cz = x * Math.sin(a) + z * Math.cos(a);
+    x = cx; z = cz; r = Math.hypot(x, z);
+    c = tmp.copy(cCore).lerp(cMid, Math.min(1, r / 3) * 0.5);
+    s *= 1.1;
+  } else if (roll < 0.36) {              // diffuse disk
+    r = 0.6 + Math.pow(rnd(), 1.2) * R * 1.05;
+    const a = rnd() * Math.PI * 2;
+    x = Math.cos(a) * r; z = Math.sin(a) * r; y = gauss() * 0.16;
+    c = tmp.copy(cMid).lerp(cOut, Math.min(1, r / R));
+  } else {                               // spiral arms (2 major, 2 minor)
+    const arm = Math.floor(rnd() * 4), major = arm % 2 === 0;
+    r = R0 + Math.pow(rnd(), major ? 1.15 : 1.45) * (R - R0);
+    const a = arm * Math.PI / 2 + Math.log(r / R0) * ARM_K;
+    const spread = (major ? 0.32 : 0.5) * (0.35 + r * 0.09);
+    x = Math.cos(a) * r + gauss() * spread; z = Math.sin(a) * r + gauss() * spread;
+    y = gauss() * (0.1 + 0.08 * (1 - r / R));
+    const t = Math.min(1, (r - R0) / (R - R0));
+    c = t < 0.35 ? tmp.copy(cCore).lerp(cMid, t / 0.35) : tmp.copy(cMid).lerp(cOut, (t - 0.35) / 0.65);
+    const q = rnd();
+    if (q < 0.015) { c = tmp.copy(cPink); s *= 1.6; }        // star-forming regions
+    else if (q < 0.035) { c = tmp.copy(cBlue); s *= 1.9; }   // young blue giants
+  }
+  const b = 0.55 + rnd() * 0.45;
+  pos[i * 3] = x; pos[i * 3 + 1] = y; pos[i * 3 + 2] = z;
+  col[i * 3] = c.r * b; col[i * 3 + 1] = c.g * b; col[i * 3 + 2] = c.b * b;
+  siz[i] = s; tw[i] = rnd();
+}
+const sGeo = new THREE.BufferGeometry();
+sGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+sGeo.setAttribute('color', new THREE.BufferAttribute(col, 3));
+sGeo.setAttribute('size', new THREE.BufferAttribute(siz, 1));
+sGeo.setAttribute('tw', new THREE.BufferAttribute(tw, 1));
+const starMat = new THREE.ShaderMaterial({
+  transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, vertexColors: true,
+  uniforms: { uTime: { value: 0 }, uScale: { value: 1 }, uBright: { value: 0 } },
+  vertexShader: `
+    attribute float size; attribute float tw;
+    uniform float uTime, uScale; varying vec3 vC; varying float vT;
+    void main(){
+      vC = color;
+      vec4 mv = modelViewMatrix * vec4(position,1.0);
+      float ps = size * uScale / -mv.z;
+      // stars smaller than ~2px keep a 2px footprint and fade instead, so they never flicker
+      float fade = clamp(ps / 2.0, 0.0, 1.0);
+      vT = (0.86 + 0.14 * sin(uTime * (0.35 + tw * 0.9) + tw * 50.0)) * fade * fade;
+      gl_PointSize = clamp(ps, 2.0, 14.0);
+      gl_Position = projectionMatrix * mv;
+    }`,
+  fragmentShader: `
+    uniform float uBright; varying vec3 vC; varying float vT;
+    void main(){
+      float d = length(gl_PointCoord - 0.5);
+      float a = exp(-d * d * 22.0);
+      gl_FragColor = vec4(vC * a * vT * uBright * 0.55, 1.0);
+    }`
 });
+galaxy.add(new THREE.Points(sGeo, starMat));
 
-// Scroll header
-window.addEventListener('scroll', () => {
-  document.getElementById('header').classList.toggle('scrolled', scrollY > 80);
+/* ---------- dust lanes: dark clouds along the inner edge of the main arms ---------- */
+const DUST = small ? 3000 : 7000;
+const dPos = new Float32Array(DUST * 3), dSiz = new Float32Array(DUST);
+for (let i = 0; i < DUST; i++) {
+  const arm = Math.floor(rnd() * 2) * 2;
+  const r = R0 + 1.6 + Math.pow(rnd(), 1.1) * (R * 0.85 - R0 - 1.6);
+  const a = arm * Math.PI / 2 + Math.log(r / R0) * ARM_K - 0.2;
+  const sp = 0.2 * (0.4 + r * 0.08);
+  dPos[i * 3] = Math.cos(a) * r + gauss() * sp;
+  dPos[i * 3 + 1] = gauss() * 0.05;
+  dPos[i * 3 + 2] = Math.sin(a) * r + gauss() * sp;
+  dSiz[i] = 4 + rnd() * 6;
+}
+const dGeo = new THREE.BufferGeometry();
+dGeo.setAttribute('position', new THREE.BufferAttribute(dPos, 3));
+dGeo.setAttribute('size', new THREE.BufferAttribute(dSiz, 1));
+const dustMat = new THREE.ShaderMaterial({
+  transparent: true, depthWrite: false, blending: THREE.NormalBlending,
+  uniforms: { uScale: { value: 1 }, uOp: { value: 0 } },
+  vertexShader: `
+    attribute float size; uniform float uScale;
+    void main(){ vec4 mv = modelViewMatrix * vec4(position,1.0); gl_PointSize = clamp(size * uScale / -mv.z, 1.0, 40.0); gl_Position = projectionMatrix * mv; }`,
+  fragmentShader: `
+    uniform float uOp;
+    void main(){ float d = length(gl_PointCoord - 0.5); float a = exp(-d * d * 12.0) * 0.045 * uOp; gl_FragColor = vec4(0.03, 0.02, 0.015, a); }`
 });
+const dust = new THREE.Points(dGeo, dustMat);
+dust.renderOrder = 2;
+galaxy.add(dust);
 
-// Hamburger
-const ham = document.getElementById('hamburger'), mob = document.getElementById('mobMenu');
-ham.addEventListener('click', () => { ham.classList.toggle('open'); mob.classList.toggle('open'); });
-document.querySelectorAll('.ml').forEach(l => l.addEventListener('click', () => { ham.classList.remove('open'); mob.classList.remove('open'); }));
+/* ---------- soft glow: the milky haze that makes the arms read as light, not dots ---------- */
+const GLOW = small ? 1800 : 4000;
+const gPos = new Float32Array(GLOW * 3), gCol = new Float32Array(GLOW * 3), gSiz = new Float32Array(GLOW), gTw = new Float32Array(GLOW);
+for (let i = 0; i < GLOW; i++) {
+  const inCore = rnd() < 0.25;
+  let x, z, r;
+  if (inCore) { x = gauss() * 1.6; z = gauss() * 1.0; r = Math.hypot(x, z); }
+  else {
+    const arm = Math.floor(rnd() * 4);
+    r = R0 + Math.pow(rnd(), 1.2) * (R - R0);
+    const a = arm * Math.PI / 2 + Math.log(r / R0) * ARM_K + 0.12;
+    x = Math.cos(a) * r + gauss() * 0.5; z = Math.sin(a) * r + gauss() * 0.5;
+  }
+  const t = Math.min(1, r / R);
+  const c = t < 0.3 ? tmp.copy(cCore) : tmp.copy(cMid).lerp(cOut, (t - 0.3) / 0.7);
+  gPos[i * 3] = x; gPos[i * 3 + 1] = gauss() * 0.08; gPos[i * 3 + 2] = z;
+  gCol[i * 3] = c.r * 0.09; gCol[i * 3 + 1] = c.g * 0.09; gCol[i * 3 + 2] = c.b * 0.09;
+  gSiz[i] = (inCore ? 14 : 10) + rnd() * 12; gTw[i] = rnd();
+}
+const glGeo = new THREE.BufferGeometry();
+glGeo.setAttribute('position', new THREE.BufferAttribute(gPos, 3));
+glGeo.setAttribute('color', new THREE.BufferAttribute(gCol, 3));
+glGeo.setAttribute('size', new THREE.BufferAttribute(gSiz, 1));
+glGeo.setAttribute('tw', new THREE.BufferAttribute(gTw, 1));
+const glowMat = starMat.clone();
+glowMat.fragmentShader = glowMat.fragmentShader.replace('exp(-d * d * 22.0)', 'exp(-d * d * 14.0)');
+glowMat.vertexShader = glowMat.vertexShader.replace('2.0, 14.0', '2.0, 64.0').replace('* fade * fade', '');
+galaxy.add(new THREE.Points(glGeo, glowMat));
 
-// Smooth scroll
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const t = document.querySelector(a.getAttribute('href'));
-    if (t) { e.preventDefault(); t.scrollIntoView({ behavior:'smooth', block:'start' }); }
-  });
-});
+/* ---------- milky haze: one continuous painted disc under the stars ---------- */
+function hazeTex() {
+  const N = small ? 1024 : 2048, c = document.createElement('canvas'); c.width = c.height = N;
+  const g = c.getContext('2d'), S = N / (2 * R * 1.15), C = N / 2;
+  g.fillStyle = '#000'; g.fillRect(0, 0, N, N);
+  g.globalCompositeOperation = 'lighter';
+  const blob = (x, z, rad, rgb, a) => {
+    const px = C + x * S, pz = C + z * S, pr = rad * S;
+    const gr = g.createRadialGradient(px, pz, 0, px, pz, pr);
+    gr.addColorStop(0, `rgba(${rgb},${a})`); gr.addColorStop(0.45, `rgba(${rgb},${a * 0.45})`); gr.addColorStop(1, `rgba(${rgb},0)`);
+    g.fillStyle = gr; g.fillRect(px - pr, pz - pr, pr * 2, pr * 2);
+  };
+  const warm = '255,196,140', mid = '236,226,214', cool = '140,168,255';
+  // arms
+  const ARMS = small ? 700 : 1400;
+  for (let i = 0; i < ARMS; i++) {
+    const arm = Math.floor(rnd() * 4), major = arm % 2 === 0;
+    const r = R0 + Math.pow(rnd(), 1.1) * (R - R0);
+    const a = arm * Math.PI / 2 + Math.log(r / R0) * ARM_K + 0.06;
+    const sp = (major ? 0.3 : 0.45) * (0.35 + r * 0.09);
+    const t = Math.min(1, (r - R0) / (R - R0));
+    blob(Math.cos(a) * r + gauss() * sp, Math.sin(a) * r + gauss() * sp, (major ? 0.9 : 1.1) * (0.6 + r * 0.06),
+         t < 0.25 ? warm : t < 0.55 ? mid : cool, (major ? 0.045 : 0.028) * Math.min(1, 0.35 + t * 1.6) * (1 - t * 0.4));
+  }
+  // diffuse disc + bar
+  for (let i = 0; i < 260; i++) { const r = Math.pow(rnd(), 0.8) * R, a = rnd() * 6.283; blob(Math.cos(a) * r, Math.sin(a) * r, 2.4, r < 3 ? mid : cool, 0.008); }
+  for (let i = 0; i < 160; i++) { const x = gauss() * 1.9, z = gauss() * 0.9, a = 0.45; blob(x * Math.cos(a) - z * Math.sin(a), x * Math.sin(a) + z * Math.cos(a), 1.3, warm, 0.016); }
+  // dark dust lanes carved out of the haze
+  g.globalCompositeOperation = 'destination-out';
+  for (let i = 0; i < (small ? 500 : 1000); i++) {
+    const arm = Math.floor(rnd() * 2) * 2, r = R0 + 1.4 + Math.pow(rnd(), 1.1) * (R * 0.82 - R0 - 1.4);
+    const a = arm * Math.PI / 2 + Math.log(r / R0) * ARM_K - 0.22, sp = 0.16 * (0.4 + r * 0.08);
+    const px = C + (Math.cos(a) * r + gauss() * sp) * S, pz = C + (Math.sin(a) * r + gauss() * sp) * S, pr = (0.25 + r * 0.03) * S;
+    const gr = g.createRadialGradient(px, pz, 0, px, pz, pr);
+    gr.addColorStop(0, 'rgba(0,0,0,.12)'); gr.addColorStop(1, 'rgba(0,0,0,0)');
+    g.fillStyle = gr; g.fillRect(px - pr, pz - pr, pr * 2, pr * 2);
+  }
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace;
+  t.anisotropy = renderer.capabilities.getMaxAnisotropy(); return t;
+}
+const hazeMat = new THREE.MeshBasicMaterial({ map: hazeTex(), blending: THREE.AdditiveBlending, transparent: true, depthWrite: false, side: THREE.DoubleSide, opacity: 0 });
+const hazeGeo = new THREE.PlaneGeometry(2 * R * 1.15, 2 * R * 1.15); hazeGeo.rotateX(-Math.PI / 2);
+const haze = new THREE.Mesh(hazeGeo, hazeMat); haze.renderOrder = -1; galaxy.add(haze);
+// a second, slightly lifted copy gives the disc a little thickness when seen at an angle
+const haze2 = new THREE.Mesh(hazeGeo, hazeMat.clone()); haze2.position.y = 0.12; haze2.scale.setScalar(0.96); haze2.renderOrder = -1; galaxy.add(haze2);
 
-// Portfolio hover video
-document.querySelectorAll('.p-card').forEach(card => {
-  const vid = card.querySelector('video');
-  if (!vid) return;
-  card.addEventListener('mouseenter', () => { vid.style.opacity='1'; vid.play(); });
-  card.addEventListener('mouseleave', () => { vid.pause(); vid.currentTime=0; vid.style.opacity='0'; });
-});
+/* ---------- glowing core + halo ---------- */
+function glowTex(stops) {
+  const c = document.createElement('canvas'); c.width = c.height = 256;
+  const g = c.getContext('2d'), gr = g.createRadialGradient(128, 128, 0, 128, 128, 128);
+  stops.forEach(([o, s]) => gr.addColorStop(o, s));
+  g.fillStyle = gr; g.fillRect(0, 0, 256, 256);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
+}
+const coreMat = new THREE.SpriteMaterial({ map: glowTex([[0, 'rgba(255,236,200,1)'], [0.12, 'rgba(255,205,140,.75)'], [0.4, 'rgba(255,160,80,.18)'], [1, 'rgba(0,0,0,0)']]), blending: THREE.AdditiveBlending, depthWrite: false, transparent: true });
+const core = new THREE.Sprite(coreMat); core.scale.set(7, 4.6, 1); galaxy.add(core);
+const haloMat = new THREE.SpriteMaterial({ map: glowTex([[0, 'rgba(160,180,255,.35)'], [0.5, 'rgba(90,110,200,.08)'], [1, 'rgba(0,0,0,0)']]), blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, opacity: 0.6 });
+const halo = new THREE.Sprite(haloMat); halo.scale.set(34, 22, 1); galaxy.add(halo);
 
-// Portfolio filter
-function filter(cat, btn) {
-  document.querySelectorAll('.fb').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.p-card').forEach(c => {
-    const show = cat==='all' || c.dataset.cat===cat;
-    c.style.display = show ? 'block' : 'none';
-    // restore wide class only when all shown
-    if (cat==='all') {
-      if (c.classList.contains('wide')) c.style.gridColumn='span 2';
-    } else {
-      c.style.gridColumn='';
-    }
-  });
+/* ---------- distant stars all around ---------- */
+const BG = small ? 2500 : 6000;
+const bPos = new Float32Array(BG * 3), bCol = new Float32Array(BG * 3), bSiz = new Float32Array(BG), bTw = new Float32Array(BG);
+for (let i = 0; i < BG; i++) {
+  const u = rnd() * 2 - 1, th = rnd() * Math.PI * 2, rr = 90 + rnd() * 120, sq = Math.sqrt(1 - u * u);
+  bPos[i * 3] = sq * Math.cos(th) * rr; bPos[i * 3 + 1] = u * rr; bPos[i * 3 + 2] = sq * Math.sin(th) * rr;
+  const w = rnd(); tmp.set(w < 0.15 ? '#ffd6a8' : w < 0.35 ? '#bcd0ff' : '#ffffff');
+  bCol[i * 3] = tmp.r; bCol[i * 3 + 1] = tmp.g; bCol[i * 3 + 2] = tmp.b;
+  bSiz[i] = 1.2 + Math.pow(rnd(), 6) * 3.5; bTw[i] = rnd();
+}
+const bGeo = new THREE.BufferGeometry();
+bGeo.setAttribute('position', new THREE.BufferAttribute(bPos, 3));
+bGeo.setAttribute('color', new THREE.BufferAttribute(bCol, 3));
+bGeo.setAttribute('size', new THREE.BufferAttribute(bSiz, 1));
+bGeo.setAttribute('tw', new THREE.BufferAttribute(bTw, 1));
+const bgMat = starMat.clone();
+bgMat.vertexShader = bgMat.vertexShader.replace('size * uScale / -mv.z', 'size * uScale * 0.012');
+const bgStars = new THREE.Points(bGeo, bgMat);
+scene.add(bgStars);
+
+/* ---------- layout + scroll choreography ---------- */
+let W = 1, H = 1, wide = true;
+function resize() {
+  W = window.innerWidth; H = window.innerHeight;
+  renderer.setSize(W, H, false);
+  camera.aspect = W / H; camera.updateProjectionMatrix();
+  wide = camera.aspect > 1.05;
+  const s = H * renderer.getPixelRatio() * 0.06;
+  starMat.uniforms.uScale.value = s; glowMat.uniforms.uScale.value = s; bgMat.uniforms.uScale.value = s * 4; dustMat.uniforms.uScale.value = s;
+}
+resize();
+window.addEventListener('resize', resize);
+
+let mx = 0, my = 0, smx = 0, smy = 0;
+window.addEventListener('pointermove', (e) => { if (e.pointerType === 'mouse') { mx = e.clientX / W * 2 - 1; my = e.clientY / H * 2 - 1; } }, { passive: true });
+
+const clock = new THREE.Clock();
+const look = new THREE.Vector3(), camPos = new THREE.Vector3(), up = new THREE.Vector3(0, 1, 0), right = new THREE.Vector3();
+const ease = (t) => 1 - Math.pow(1 - t, 3);
+let scrollP = 0, heroP = 0;
+function readScroll() {
+  const max = Math.max(1, document.documentElement.scrollHeight - H);
+  scrollP = Math.min(1, Math.max(0, window.scrollY / max));
+  heroP = Math.min(1, Math.max(0, window.scrollY / H));
+}
+window.addEventListener('scroll', readScroll, { passive: true });
+readScroll();
+let sp = scrollP, sHero = heroP, last = 0, slowFrames = 0, frames = 0;
+
+function frame() {
+  const t = clock.getElapsedTime();
+  const dt = Math.min(0.1, t - last); last = t;
+  const intro = reduceMotion ? 1 : ease(Math.min(1, t / 3.2));
+  // exponential damping by real time, so motion is equally smooth at 30, 60 or 144 fps
+  const kS = 1 - Math.exp(-dt * 2.6), kM = 1 - Math.exp(-dt * 2.0);
+  sp += (scrollP - sp) * kS; sHero += (heroP - sHero) * kS;
+  smx += (mx - smx) * kM; smy += (my - smy) * kM;
+  // adaptive resolution: if this machine can't hold ~45fps, render fewer pixels instead of stuttering
+  if (++frames > 30 && frames < 400 && dprCap > 1) {
+    slowFrames = dt > 0.022 ? slowFrames + 1 : Math.max(0, slowFrames - 1);
+    if (slowFrames > 20) { dprCap = Math.max(1, dprCap - 0.25); renderer.setPixelRatio(dprCap); resize(); slowFrames = 0; }
+  }
+
+  // slow galactic rotation
+  galaxy.rotation.y = (reduceMotion ? 0 : t * 0.012) + sp * 1.2;
+
+  // camera: starts high above the disc, sweeps around and down to the edge-on Milky Way band
+  const ang = -0.4 + sp * Math.PI * 1.15 + smx * 0.08;
+  const dist = (wide ? 17 : 22) - sp * 4 + (1 - intro) * 18;
+  const height = 8.5 - sp * 7.6 + (1 - intro) * 6 - smy * 0.6;
+  camPos.set(Math.sin(ang) * dist, height, Math.cos(ang) * dist);
+  camera.position.copy(camPos);
+  // hero: keep the galaxy to the right of the headline (desktop) or above it (mobile)
+  const side = 1 - Math.min(1, sHero * 1.2);
+  right.crossVectors(up, camPos).normalize();
+  look.set(0, 0, 0).addScaledVector(right, wide ? -side * 5.6 : 0);
+  look.y = wide ? 0 : -side * 3.2;
+  camera.lookAt(look);
+
+  starMat.uniforms.uTime.value = t; bgMat.uniforms.uTime.value = t;
+  starMat.uniforms.uBright.value = intro; glowMat.uniforms.uTime.value = t; glowMat.uniforms.uBright.value = intro; bgMat.uniforms.uBright.value = 0.8 + intro * 0.2;
+  dustMat.uniforms.uOp.value = intro;
+  hazeMat.opacity = intro * 0.75; haze2.material.opacity = intro * 0.25;
+  coreMat.opacity = intro * (0.62 + 0.08 * Math.sin(t * 0.8));
+
+  renderer.render(scene, camera);
 }
 
-// Form
-function handleSubmit(e) {
-  e.preventDefault();
-  alert('Message sent! We\'ll respond within 24 hours.');
-  e.target.reset();
-}
+let running = true;
+document.addEventListener('visibilitychange', () => { running = !document.hidden; if (running) requestAnimationFrame(loop); });
+function loop() { if (!running) return; frame(); requestAnimationFrame(loop); }
+frame();
+root.classList.add('webgl-ready');
+requestAnimationFrame(loop);
 </script>
 </body>
 </html>
